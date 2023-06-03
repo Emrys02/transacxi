@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../tabs/home_tab.dart';
+
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
 
@@ -11,7 +13,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final int _currentIndex = 0;
 
   Widget get _body {
-    if (_currentIndex != 3) return const Placeholder();
+    if (_currentIndex != 3) return const HomeTab();
     return const Placeholder();
   }
 

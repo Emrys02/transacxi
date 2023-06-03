@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'helpers/global_variables.dart';
 import 'screens/navigation_screen.dart';
 import 'theme/app_theme.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       title: "Transcaxi",
       theme: AppTheme.primary,
       home: const NavigationScreen(),
+      navigatorKey: navigationKey,
     );
   }
 }
