@@ -9,6 +9,7 @@ class SpacingManager {
   static final h10 = SizedBox(height: ScreenSize.height * 0.012);
   static final h15 = SizedBox(height: ScreenSize.height * 0.018);
   static final h18 = SizedBox(height: ScreenSize.height * 0.021);
+  static final h30 = SizedBox(height: ScreenSize.height * 0.034);
   static final h40 = SizedBox(height: ScreenSize.height * 0.047);
   static final h55 = SizedBox(height: ScreenSize.height * 0.064);
   static final h67 = SizedBox(height: ScreenSize.height * 0.079);

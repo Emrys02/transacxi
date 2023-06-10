@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../constants/managers/asset_manager.dart';
 import '../constants/managers/spacing_manager.dart';
 import '../constants/managers/string_manager.dart';
-import '../constants/screen_size.dart';
+import '../handlers/navigation_screen_handler.dart';
 import '../widgets/dashboard_options.dart';
 import '../widgets/transaction_list_tile.dart';
 
@@ -16,15 +16,16 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  final _viewHanlder = NavigationViewStateHandler();
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SpacingManager.h40,
         Padding(
           padding: EdgeInsets.symmetric(horizontal: SpacingManager.w10.width!),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SvgPicture.asset(AssetManager.logoMini),
               CircleAvatar(
@@ -55,7 +56,12 @@ class _HomeTabState extends State<HomeTab> {
                   children: [
                     DasboardOptions(label: StringManager.addMoney, icon: Icons.account_balance_wallet_outlined, function: () {}),
                     SpacingManager.w20,
-                    DasboardOptions(label: StringManager.transactionHistory, icon: Icons.schedule, function: () {}),
+                    DasboardOptions(
+                        label: StringManager.transactionHistory,
+                        icon: Icons.schedule,
+                        function: () {
+                          _viewHanlder.changeCurrentView(3);
+                        }),
                     SpacingManager.w20,
                     DasboardOptions(label: StringManager.transfer, icon: Icons.swap_horiz_rounded, function: () {}),
                   ],
@@ -73,8 +79,9 @@ class _HomeTabState extends State<HomeTab> {
         ),
         SpacingManager.h5,
         ListView.builder(
-          itemCount: 3,
+          itemCount: 1,
           itemBuilder: (context, index) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: EdgeInsets.only(
