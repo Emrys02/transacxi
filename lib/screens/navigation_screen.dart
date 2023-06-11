@@ -13,24 +13,24 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationScreenState extends State<NavigationScreen> {
   final _viewHanlder = NavigationViewStateHandler();
-  final int _currentIndex = 0;
 
   Widget get _body {
-    if (_currentIndex != 3) return const HomeTab();
+    print(_viewHanlder.value);
+    if (_viewHanlder.value != 3) return const HomeTab();
     return const TransactionsTab();
   }
 
   Icon get _homeIcon {
-    if (_currentIndex != 3) return const Icon(Icons.home_outlined);
+    if (_viewHanlder.value != 3) return const Icon(Icons.home_outlined);
     return const Icon(Icons.home_filled);
   }
 
   Icon get _scheduleIcon {
-    if (_currentIndex != 3) return const Icon(Icons.schedule_outlined);
+    if (_viewHanlder.value != 3) return const Icon(Icons.schedule_outlined);
     return const Icon(Icons.schedule);
   }
 
-  void _updateCurrentView(int value){
+  void _updateCurrentView(int value) {
     _viewHanlder.changeCurrentView(value);
   }
 
@@ -38,16 +38,21 @@ class _NavigationScreenState extends State<NavigationScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: _body,
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _viewHanlder.value,
-          items: [
-            BottomNavigationBarItem(icon: _homeIcon, label: ""),
-            const BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: ""),
-            const BottomNavigationBarItem(icon: Icon(Icons.swap_horiz_rounded), label: ""),
-            BottomNavigationBarItem(icon: _scheduleIcon, label: ""),
-          ],
-          onTap: _updateCurrentView,
+        body: ValueListenableBuilder(valueListenable: _viewHanlder, builder: (context, value, child) => _body),
+        bottomNavigationBar: ValueListenableBuilder(
+          valueListenable: _viewHanlder,
+          builder: (context, value, child) {
+            return BottomNavigationBar(
+              currentIndex: _viewHanlder.value,
+              items: [
+                BottomNavigationBarItem(icon: _homeIcon, label: ""),
+                const BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: ""),
+                const BottomNavigationBarItem(icon: Icon(Icons.swap_horiz_rounded), label: ""),
+                BottomNavigationBarItem(icon: _scheduleIcon, label: ""),
+              ],
+              onTap: _updateCurrentView,
+            );
+          },
         ),
       ),
     );

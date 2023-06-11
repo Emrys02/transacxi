@@ -17,6 +17,7 @@ class SpacingManager {
   static final w10 = SizedBox(width: ScreenSize.width * 0.025);
   static final w15 = SizedBox(width: ScreenSize.width * 0.038);
   static final w20 = SizedBox(width: ScreenSize.width * 0.051);
+  static final w25 = SizedBox(width: ScreenSize.width * 0.064);
   static final w30 = SizedBox(width: ScreenSize.width * 0.076);
   static final w50 = SizedBox(width: ScreenSize.width * 0.127);
 }

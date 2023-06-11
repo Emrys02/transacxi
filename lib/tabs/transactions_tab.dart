@@ -20,6 +20,7 @@ class _TransactionsTabState extends State<TransactionsTab> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: SpacingManager.w10.width!),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CircleAvatar(
                 radius: SpacingManager.w15.width!,
@@ -27,7 +28,7 @@ class _TransactionsTabState extends State<TransactionsTab> {
                 child: const Icon(CupertinoIcons.arrow_up_right_circle_fill),
               ),
               CircleAvatar(
-                radius: SpacingManager.w50.width,
+                radius: SpacingManager.w25.width,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(SpacingManager.w50.width!),
                 ),
@@ -36,20 +37,23 @@ class _TransactionsTabState extends State<TransactionsTab> {
           ),
         ),
         SpacingManager.h10,
-        ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.only(
-                    top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w15.width!),
-                decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0x00b9b6b6)))),
-                child: const Text("date"),
-              ),
-              SpacingManager.h10,
-              ...List.generate(5, (index) => const TransactionListTile())
-            ],
+        Expanded(
+          child: ListView.builder(
+            itemCount: 3,
+            itemBuilder: (context, index) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: SpacingManager.w10.width!),
+                  padding: EdgeInsets.only(
+                      top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w15.width!),
+                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFB9B6B6), width: 0))),
+                  child: const Text("date"),
+                ),
+                SpacingManager.h10,
+                ...List.generate(5, (index) => const TransactionListTile())
+              ],
+            ),
           ),
         ),
       ],

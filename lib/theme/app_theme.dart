@@ -17,7 +17,7 @@ class AppTheme {
       surface: Color.fromRGBO(51, 51, 51, 1),
       onSurface: Color.fromRGBO(255, 255, 255, 1),
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(showSelectedLabels: false, showUnselectedLabels: false),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(showSelectedLabels: false, showUnselectedLabels: false, type: BottomNavigationBarType.fixed),
     useMaterial3: true,
   );
 }

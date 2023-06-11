@@ -14,8 +14,12 @@ class TransactionListTile extends StatelessWidget {
     return Container(
       width: ScreenSize.width,
       padding: EdgeInsets.only(
-          top: SpacingManager.h15.height!, bottom: SpacingManager.h5.height!, left: SpacingManager.w10.width!, right: SpacingManager.w10.width!),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0x00b9b6b6)))),
+        top: SpacingManager.h15.height!,
+        bottom: SpacingManager.h5.height!,
+        left: SpacingManager.w10.width!,
+        right: SpacingManager.w10.width!,
+      ),
+      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6), width: 0))),
       child: Row(
         children: [
           SvgPicture.asset(AssetManager.transactionIcon),

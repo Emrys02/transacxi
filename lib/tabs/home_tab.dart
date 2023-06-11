@@ -29,7 +29,7 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               SvgPicture.asset(AssetManager.logoMini),
               CircleAvatar(
-                radius: SpacingManager.w50.width,
+                radius: SpacingManager.w25.width,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(SpacingManager.w50.width!),
                 ),
@@ -53,6 +53,7 @@ class _HomeTabState extends State<HomeTab> {
                 ),
                 SpacingManager.h18,
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DasboardOptions(label: StringManager.addMoney, icon: Icons.account_balance_wallet_outlined, function: () {}),
                     SpacingManager.w20,
@@ -74,24 +75,27 @@ class _HomeTabState extends State<HomeTab> {
         Container(
           padding: EdgeInsets.only(
               top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w20.width!),
-          decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0x00b9b6b6)))),
+          decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6)))),
           child: const Text(StringManager.recent),
         ),
         SpacingManager.h5,
-        ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context, index) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.only(
-                    top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w15.width!),
-                decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0x00b9b6b6)))),
-                child: const Text("date"),
-              ),
-              SpacingManager.h10,
-              ...List.generate(5, (index) => const TransactionListTile())
-            ],
+        Expanded(
+          child: ListView.builder(
+            itemCount: 2,
+            itemBuilder: (context, index) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: SpacingManager.w10.width!),
+                  padding: EdgeInsets.only(
+                      top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w15.width!),
+                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6), width: 0))),
+                  child: const Text("date"),
+                ),
+                SpacingManager.h10,
+                ...List.generate(2, (index) => const TransactionListTile())
+              ],
+            ),
           ),
         ),
       ],
