@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constants/managers/asset_manager.dart';
 import '../constants/managers/spacing_manager.dart';
@@ -22,7 +21,7 @@ class TransactionListTile extends StatelessWidget {
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6), width: 0))),
       child: Row(
         children: [
-          SvgPicture.asset(AssetManager.transactionIcon),
+          Image.asset(AssetManager.transactionIcon),
           SpacingManager.w30,
           const Text("receiver"),
           const Expanded(child: Text("-${StringManager.naira}amount", textAlign: TextAlign.right)),

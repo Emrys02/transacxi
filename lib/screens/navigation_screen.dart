@@ -15,7 +15,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final _viewHanlder = NavigationViewStateHandler();
 
   Widget get _body {
-    print(_viewHanlder.value);
     if (_viewHanlder.value != 3) return const HomeTab();
     return const TransactionsTab();
   }

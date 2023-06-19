@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constants/managers/asset_manager.dart';
 import '../constants/managers/spacing_manager.dart';
@@ -27,7 +26,7 @@ class _HomeTabState extends State<HomeTab> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset(AssetManager.logoMini),
+              Image.asset(AssetManager.logoMini),
               CircleAvatar(
                 radius: SpacingManager.w25.width,
                 child: ClipRRect(
@@ -41,7 +40,7 @@ class _HomeTabState extends State<HomeTab> {
         Stack(
           alignment: Alignment.center,
           children: [
-            SvgPicture.asset(AssetManager.balanceBackground),
+            Image.asset(AssetManager.balanceBackground),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [

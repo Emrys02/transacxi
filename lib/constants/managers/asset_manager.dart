@@ -1,11 +1,11 @@
 class AssetManager {
   AssetManager._();
 
-  static const logoMini = "svg/logo_mini.svg";
-  static const logoMedium = "svg/logo_medium.svg";
-  static const logoLarge = "svg/logo_large.svg";
-  static const loginBackground = "svg/login_background.svg";
-  static const singUpBackground = "svg/sign_up_background.svg";
-  static const balanceBackground = "svg/balance_background.svg";
-  static const transactionIcon = "svg/transaction_icon.svg";
+  static const balanceBackground = "img/balance_background.png";
+  static const logoLarge = "sim/logo_large.png";
+  static const logoMini = "img/logo_mini.png";
+  static const logoMedium = "img/logo_medium.png";
+  static const loginBackground = "img/login_background.png";
+  static const signUpBackground = "img/sign_up_background.png";
+  static const transactionIcon = "img/transaction_icon.png";
 }
