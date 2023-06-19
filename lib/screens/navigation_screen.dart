@@ -20,7 +20,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 
   Icon get _homeIcon {
-    if (_viewHanlder.value != 3) return const Icon(Icons.home_outlined);
+    if (_viewHanlder.value == 3) return const Icon(Icons.home_outlined);
     return const Icon(Icons.home_filled);
   }
 

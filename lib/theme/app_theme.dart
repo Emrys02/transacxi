@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transacxi/constants/managers/text_style_manager.dart';
 
 class AppTheme {
   AppTheme._();
@@ -17,7 +18,16 @@ class AppTheme {
       surface: Color.fromRGBO(51, 51, 51, 1),
       onSurface: Color.fromRGBO(255, 255, 255, 1),
     ),
+    buttonTheme: const ButtonThemeData(shape: StadiumBorder()),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(showSelectedLabels: false, showUnselectedLabels: false, type: BottomNavigationBarType.fixed),
+    inputDecorationTheme: InputDecorationTheme(
+        fillColor: const Color(0xFFB9B6B6),
+        filled: true,
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        disabledBorder: InputBorder.none,
+        errorBorder: InputBorder.none,
+        hintStyle: TextStyles.w400s9.copyWith(color: const Color(0xFF888888))),
     useMaterial3: true,
   );
 }

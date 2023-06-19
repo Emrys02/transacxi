@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'helpers/global_variables.dart';
-import 'screens/navigation_screen.dart';
+import 'screens/auth_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Transcaxi",
       theme: AppTheme.primary,
-      home: const NavigationScreen(),
+      home: const AuthScreen(),
       navigatorKey: navigationKey,
     );
   }
