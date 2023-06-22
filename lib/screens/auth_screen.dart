@@ -24,7 +24,7 @@ class _AuthScreenState extends State<AuthScreen> {
               firstChild: const LoginForm(),
               secondChild: const SignUpForm(),
               crossFadeState: value,
-              duration: const Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 200),
             );
           },
         ),
