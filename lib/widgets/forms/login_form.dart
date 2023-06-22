@@ -5,7 +5,9 @@ import '../../constants/managers/spacing_manager.dart';
 import '../../constants/managers/string_manager.dart';
 import '../../constants/managers/text_style_manager.dart';
 import '../../constants/screen_size.dart';
+import '../../constants/validators/input_validators.dart';
 import '../../handlers/auth_view_handler.dart';
+import '../text_fileld.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -26,7 +28,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           Positioned(top: 0, child: Image.asset(AssetManager.loginBackground)),
           Positioned(
-            top: SpacingManager.h435.height,
+            top: ScreenSize.keyboardHeight < 1 ? SpacingManager.h435.height : (SpacingManager.h435.height! - ScreenSize.keyboardHeight),
             child: Container(
               width: ScreenSize.width,
               padding: EdgeInsets.symmetric(horizontal: SpacingManager.w30.width!),
@@ -47,9 +49,9 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   SpacingManager.h20,
-                  const TextField(decoration: InputDecoration(hintText: StringManager.emailAddress)),
+                  const CustomTextField(hintText: StringManager.emailAddress, validator: InputValidators.email),
                   SpacingManager.h10,
-                  const TextField(decoration: InputDecoration(hintText: StringManager.password)),
+                  const CustomTextField(hintText: StringManager.password, isPassword: true),
                   SpacingManager.h20,
                   MaterialButton(
                     onPressed: () {},

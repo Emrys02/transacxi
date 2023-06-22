@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:transacxi/constants/managers/spacing_manager.dart';
 
+import '../../constants/input_formatters.dart';
 import '../../constants/managers/asset_manager.dart';
+import '../../constants/managers/spacing_manager.dart';
 import '../../constants/managers/string_manager.dart';
 import '../../constants/managers/text_style_manager.dart';
 import '../../constants/screen_size.dart';
+import '../../constants/validators/input_validators.dart';
 import '../../handlers/auth_view_handler.dart';
+import '../text_fileld.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -26,7 +29,7 @@ class _SignUpFormState extends State<SignUpForm> {
         children: [
           Positioned(top: 0, child: Image.asset(AssetManager.signUpBackground)),
           Positioned(
-            top: SpacingManager.h315.height,
+            top: ScreenSize.keyboardHeight < 1 ? SpacingManager.h315.height : (SpacingManager.h315.height! - ScreenSize.keyboardHeight),
             child: Container(
               width: ScreenSize.width,
               padding: EdgeInsets.symmetric(horizontal: SpacingManager.w30.width!),
@@ -47,13 +50,15 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                   SpacingManager.h20,
-                  const TextField(decoration: InputDecoration(hintText: StringManager.fulName)),
+                  CustomTextField(hintText: StringManager.fullName, inputFormatters: InputFormatters.fullname, validator: InputValidators.fullname),
                   SpacingManager.h10,
                   const TextField(decoration: InputDecoration(hintText: StringManager.emailAddress)),
+                  const CustomTextField(hintText: StringManager.emailAddress, validator: InputValidators.email),
                   SpacingManager.h10,
                   const TextField(decoration: InputDecoration(hintText: StringManager.password)),
+                  const CustomTextField(hintText: StringManager.password, validator: InputValidators.password),
                   SpacingManager.h10,
-                  const TextField(decoration: InputDecoration(hintText: StringManager.confirmPassword)),
+                  const CustomTextField(hintText: StringManager.confirmPassword, validator: InputValidators.confirmPassword),
                   SpacingManager.h20,
                   MaterialButton(
                     onPressed: () {},

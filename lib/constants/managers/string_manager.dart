@@ -1,4 +1,4 @@
-class StringManager{
+class StringManager {
   StringManager._();
 
   static const addMoney = "Add Money";
@@ -6,7 +6,7 @@ class StringManager{
   static const dontHaveAccount = "I don't have an account ";
   static const haveAccount = "Already have an account ";
   static const emailAddress = "Email Address";
-  static const fulName = "Fullname";
+  static const fullName = "Fullname";
   static const login = "Login";
   static const naira = "₦";
   static const password = "Password";

@@ -9,4 +9,5 @@ class ScreenSize {
   static final height =
       _deviceProperties.size.height - _deviceProperties.systemGestureInsets.bottom - _deviceProperties.padding.top - _deviceProperties.padding.bottom;
   static final width = _deviceProperties.size.width - _deviceProperties.padding.left - _deviceProperties.padding.right;
+  static final keyboardHeight = _deviceProperties.viewInsets.bottom;
 }
