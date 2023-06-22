@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:transacxi/providers/auth_provider.dart';
 
 import '../../constants/input_formatters.dart';
 import '../../constants/managers/asset_manager.dart';
@@ -10,6 +9,9 @@ import '../../constants/screen_size.dart';
 import '../../constants/validators/input_validators.dart';
 import '../../controllers/new_user_controller.dart';
 import '../../handlers/auth_view_handler.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/user_details_provider.dart';
+import '../../screens/navigation_screen.dart';
 import '../../services/bottom_sheet_service.dart';
 import '../button_with_loading_indicator.dart';
 import '../custom_text_fileld.dart';
@@ -54,8 +56,15 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
     try {
-      await AuthProvider.login();
+      final ref = await AuthProvider.createUser();
+      await UserDetailsProvider.createUser(ref);
+      if (mounted) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const NavigationScreen(),
+        ));
+      }
     } catch (e) {
+      if (AuthProvider.completedAction) AuthProvider.deleteUser();
       BottomSheetService.showErrorSheet(e.toString());
     }
   }

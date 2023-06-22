@@ -12,6 +12,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
+  firebase_database: ^10.2.3
+  firebase_storage: ^11.2.3
   flutter:
     sdk: flutter
   shared_preferences: ^2.1.2

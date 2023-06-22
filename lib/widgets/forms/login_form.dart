@@ -6,8 +6,11 @@ import '../../constants/managers/string_manager.dart';
 import '../../constants/managers/text_style_manager.dart';
 import '../../constants/screen_size.dart';
 import '../../constants/validators/input_validators.dart';
+import '../../controllers/new_user_controller.dart';
 import '../../handlers/auth_view_handler.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/user_details_provider.dart';
+import '../../screens/navigation_screen.dart';
 import '../../services/bottom_sheet_service.dart';
 import '../button_with_loading_indicator.dart';
 import '../custom_text_fileld.dart';
@@ -22,16 +25,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
   final _authViewState = AuthViewStateHandler();
   final _formKey = GlobalKey<FormState>();
-
-  Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
-    try {
-      FocusScope.of(context).unfocus();
-      await AuthProvider.login();
-    } catch (e) {
-      BottomSheetService.showErrorSheet(e.toString());
-    }
-  }
+  final _newUserController = NewUserController();
 
   @override
   void initState() {
@@ -57,6 +51,31 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    try {
+      FocusScope.of(context).unfocus();
+      final ref = await AuthProvider.login();
+      UserDetailsProvider.retrieveUserDetails(ref);
+      if (mounted) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const NavigationScreen(),
+        ));
+      }
+    } catch (e) {
+      if (AuthProvider.completedAction) AuthProvider.logOut();
+      BottomSheetService.showErrorSheet(e.toString());
+    }
+  }
+
+  void _updateEmail(String value) {
+    _newUserController.updateEmail = value;
+  }
+
+  void _updatePassword(String value) {
+    _newUserController.updatePassword = value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -69,7 +88,7 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
           children: [
             Positioned(top: 0, child: Image.asset(AssetManager.loginBackground)),
             Positioned(
-              top: SpacingManager.h435.height! - View.of(context).viewInsets.bottom / 2,
+              top: SpacingManager.h435.height! - View.of(context).viewInsets.bottom / 3,
               child: Container(
                 width: ScreenSize.width,
                 padding: EdgeInsets.symmetric(horizontal: SpacingManager.w30.width!),
@@ -90,12 +109,18 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
                       ),
                     ),
                     SpacingManager.h20,
-                    const CustomTextField(hintText: StringManager.emailAddress, validator: InputValidators.email, keyboardType: TextInputType.emailAddress),
+                    CustomTextField(
+                      hintText: StringManager.emailAddress,
+                      validator: InputValidators.email,
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: _updateEmail,
+                    ),
                     SpacingManager.h10,
-                    const CustomTextField(
+                    CustomTextField(
                       hintText: StringManager.password,
                       validator: InputValidators.password,
                       keyboardType: TextInputType.visiblePassword,
+                      onChanged: _updatePassword,
                       isPassword: true,
                     ),
                     SpacingManager.h20,

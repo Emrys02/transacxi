@@ -43,8 +43,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.project.transacxi".
-        minSdkVersion flutter.minSdkVersion
+        applicationId "com.project.transacxi"
+        minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

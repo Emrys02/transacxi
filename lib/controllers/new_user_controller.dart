@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class NewUserController {
   NewUserController._internal();
   static final _instance = NewUserController._internal();
@@ -29,6 +31,16 @@ class NewUserController {
 
   set updateFullname(String value) {
     _fullname = value;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "firstname": _fullname!.split(" ").first,
+      "lastname": _fullname!.split(" ").last,
+      "fullname": _fullname,
+      "email": _email,
+      "accountNumber": List.generate(10, (index) => Random().nextInt(9)).toString().replaceAll(",", "").replaceAll("[", "").replaceAll("]", ""),
+    };
   }
 
   void dispose() {
