@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "641538912684",
+    "firebase_url": "https://transacxi-default-rtdb.firebaseio.com",
+    "project_id": "transacxi",
+    "storage_bucket": "transacxi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641538912684:android:0045930aabe7b53c7a0a09",
+        "android_client_info": {
+          "package_name": "com.project.transacxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641538912684-e0ulb9l7tr9rujmt0vo8t2655juc6esu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf7ifJE0cTE4GRITzgjlQdLvfCKamIZ1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641538912684-e0ulb9l7tr9rujmt0vo8t2655juc6esu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
