@@ -56,11 +56,9 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
     try {
       FocusScope.of(context).unfocus();
       final ref = await AuthProvider.login();
-      UserDetailsProvider.retrieveUserDetails(ref);
+      await UserDetailsProvider.retrieveUserDetails(ref);
       if (mounted) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const NavigationScreen(),
-        ));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
       }
     } catch (e) {
       if (AuthProvider.completedAction) AuthProvider.logOut();

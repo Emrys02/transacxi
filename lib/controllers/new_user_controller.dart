@@ -40,6 +40,7 @@ class NewUserController {
       "fullname": _fullname,
       "email": _email,
       "accountNumber": List.generate(10, (index) => Random().nextInt(9)).toString().replaceAll(",", "").replaceAll("[", "").replaceAll("]", ""),
+      "balance": 0.0,
     };
   }
 

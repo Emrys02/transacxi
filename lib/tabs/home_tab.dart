@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants/managers/asset_manager.dart';
 import '../constants/managers/spacing_manager.dart';
 import '../constants/managers/string_manager.dart';
+import '../controllers/user_controller.dart';
 import '../handlers/navigation_screen_handler.dart';
 import '../widgets/dashboard_options.dart';
 import '../widgets/transaction_list_tile.dart';
@@ -16,6 +17,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   final _viewHanlder = NavigationViewStateHandler();
+  final _userController = UserController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +50,9 @@ class _HomeTabState extends State<HomeTab> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: SpacingManager.w30.width!, vertical: SpacingManager.h5.height!),
                   decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFF888888)))),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [const Text(StringManager.naira), SpacingManager.w10, const Text("balance")]),
+                  child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [const Text(StringManager.naira), SpacingManager.w10, Text(_userController.currentUser.balance.toString())]),
                 ),
                 SpacingManager.h18,
                 Row(
