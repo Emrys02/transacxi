@@ -5,8 +5,8 @@ import '../constants/managers/spacing_manager.dart';
 import '../constants/managers/string_manager.dart';
 import '../controllers/user_controller.dart';
 import '../handlers/navigation_screen_handler.dart';
-import '../widgets/dashboard_options.dart';
-import '../widgets/transaction_list_tile.dart';
+import '../widgets/elements/dashboard_options.dart';
+import '../widgets/elements/transaction_list_tile.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -58,16 +58,16 @@ class _HomeTabState extends State<HomeTab> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    DasboardOptions(label: StringManager.addMoney, icon: Icons.account_balance_wallet_outlined, function: () {}),
+                    DashboardOptions(label: StringManager.addMoney, icon: Icons.account_balance_wallet_outlined, function: () {}),
                     SpacingManager.w20,
-                    DasboardOptions(
+                    DashboardOptions(
                         label: StringManager.transactionHistory,
                         icon: Icons.schedule,
                         function: () {
                           _viewHanlder.changeCurrentView(3);
                         }),
                     SpacingManager.w20,
-                    DasboardOptions(label: StringManager.transfer, icon: Icons.swap_horiz_rounded, function: () {}),
+                    DashboardOptions(label: StringManager.transfer, icon: Icons.swap_horiz_rounded, function: () {}),
                   ],
                 ),
               ],

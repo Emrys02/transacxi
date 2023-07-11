@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../constants/managers/asset_manager.dart';
-import '../constants/managers/spacing_manager.dart';
-import '../constants/managers/string_manager.dart';
-import '../constants/screen_size.dart';
+import '../../constants/managers/asset_manager.dart';
+import '../../constants/managers/spacing_manager.dart';
+import '../../constants/managers/string_manager.dart';
+import '../../constants/screen_size.dart';
 
 class TransactionListTile extends StatelessWidget {
   const TransactionListTile({super.key});

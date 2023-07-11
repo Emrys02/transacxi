@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants/managers/spacing_manager.dart';
-import '../constants/managers/text_style_manager.dart';
+import '../../constants/managers/spacing_manager.dart';
+import '../../constants/managers/text_style_manager.dart';
 
 class LoadingButton extends StatefulWidget {
   const LoadingButton({required this.label, this.onPressed, super.key});

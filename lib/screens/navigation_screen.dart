@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../handlers/navigation_screen_handler.dart';
 import '../tabs/home_tab.dart';
 import '../tabs/transactions_tab.dart';
+import '../widgets/dashboard_drawer.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -38,6 +39,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return SafeArea(
       child: Scaffold(
         body: ValueListenableBuilder(valueListenable: _viewHanlder, builder: (context, value, child) => _body),
+        endDrawer: const DashboardDrawer(),
+        endDrawerEnableOpenDragGesture: true,
         bottomNavigationBar: ValueListenableBuilder(
           valueListenable: _viewHanlder,
           builder: (context, value, child) {

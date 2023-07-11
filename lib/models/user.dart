@@ -5,6 +5,7 @@ class User {
   String fullname;
   String email;
   String accountNumber;
+  String profileImage;
   dynamic balance;
   User({
     required this.id,
@@ -14,17 +15,18 @@ class User {
     required this.fullname,
     required this.accountNumber,
     required this.balance,
+    this.profileImage = "",
   });
 
   static User fromMap(String id, Map json) {
     return User(
-      id: id,
-      email: json["email"],
-      firstname: json["firstname"],
-      lastname: json["lastname"],
-      fullname: json["fullname"],
-      accountNumber: json["accountNumber"],
-      balance: json["balance"],
-    );
+        id: id,
+        email: json["email"],
+        firstname: json["firstname"],
+        lastname: json["lastname"],
+        fullname: json["fullname"],
+        accountNumber: json["accountNumber"],
+        balance: json["balance"],
+        profileImage: json["profileImage"]);
   }
 }

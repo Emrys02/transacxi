@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
 import '../constants/managers/spacing_manager.dart';
-import '../widgets/transaction_list_tile.dart';
+import '../widgets/elements/transaction_list_tile.dart';
 
 class TransactionsTab extends StatefulWidget {
   const TransactionsTab({super.key});

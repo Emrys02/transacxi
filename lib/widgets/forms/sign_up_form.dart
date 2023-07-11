@@ -13,8 +13,8 @@ import '../../providers/auth_provider.dart';
 import '../../providers/user_details_provider.dart';
 import '../../screens/navigation_screen.dart';
 import '../../services/bottom_sheet_service.dart';
-import '../button_with_loading_indicator.dart';
-import '../custom_text_fileld.dart';
+import '../elements/button_with_loading_indicator.dart';
+import '../elements/custom_text_fileld.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});

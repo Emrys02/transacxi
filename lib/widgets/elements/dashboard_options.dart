@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../constants/managers/spacing_manager.dart';
+import '../../constants/managers/spacing_manager.dart';
 
-class DasboardOptions extends StatelessWidget {
-  const DasboardOptions({super.key, required String label, required IconData icon, required VoidCallback function})
+class DashboardOptions extends StatelessWidget {
+  const DashboardOptions({super.key, required String label, required IconData icon, required VoidCallback function})
       : _label = label,
         _icon = icon,
         _function = function;
