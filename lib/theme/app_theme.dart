@@ -19,6 +19,7 @@ class AppTheme {
       onSurface: Color.fromRGBO(255, 255, 255, 1),
     ),
     buttonTheme: const ButtonThemeData(shape: StadiumBorder()),
+    textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Color.fromRGBO(255, 0, 0, 1)))),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(showSelectedLabels: false, showUnselectedLabels: false, type: BottomNavigationBarType.fixed),
     inputDecorationTheme: InputDecorationTheme(
         fillColor: const Color(0xFFB9B6B6),
@@ -31,14 +32,3 @@ class AppTheme {
     useMaterial3: true,
   );
 }
-
-      // primary: Color.fromRGBO(36, 36, 36,1),
-      // onPrimary: Color.fromRGBO(185, 182, 182,1),
-      // secondary: Color.fromRGBO(51, 51, 51,1),
-      // onSecondary: Color.fromRGBO(105, 104, 104,1),
-      // error: Color.fromRGBO(255, 0, 0,1),
-      // onError: Color.fromRGBO(255, 255, 255,1),
-      // background: Color.fromRGBO(36, 36, 36,1),
-      // onBackground: Color.fromRGBO(185, 182, 182,1),
-      // surface: Color.fromRGBO(51, 51, 51,1),
-      // onSurface: Color.fromRGBO(255, 255, 255,1),
