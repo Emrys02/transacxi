@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/managers/spacing_manager.dart';
 import '../../constants/managers/text_style_manager.dart';
+import '../../extensions/num_extension.dart';
 
 class LoadingButton extends StatefulWidget {
   const LoadingButton({required this.label, this.onPressed, super.key});
@@ -27,7 +27,7 @@ class _LoadingButtonState extends State<LoadingButton> {
 
   Widget get _child {
     if (!_isLoading) return Text(widget.label, style: TextStyles.w400s11);
-    return SizedBox(height: SpacingManager.h20.height, width: SpacingManager.h20.height, child: const CircularProgressIndicator());
+    return SizedBox(height: 20.height(), width: 20.height(), child: const CircularProgressIndicator());
   }
 
   @override
@@ -37,8 +37,8 @@ class _LoadingButtonState extends State<LoadingButton> {
       color: const Color(0xFFFF0000),
       disabledColor: const Color(0xFFFF0000),
       shape: const StadiumBorder(),
-      padding: EdgeInsets.symmetric(vertical: SpacingManager.h10.height!),
-      minWidth: SpacingManager.w316.width,
+      padding: EdgeInsets.symmetric(vertical: 10.height()),
+      minWidth: 316.width(),
       child: _child,
     );
   }

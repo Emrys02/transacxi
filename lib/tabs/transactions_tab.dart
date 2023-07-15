@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
-import '../constants/managers/spacing_manager.dart';
+import '../extensions/num_extension.dart';
 import '../widgets/elements/transaction_list_tile.dart';
 
 class TransactionsTab extends StatefulWidget {
@@ -16,27 +16,32 @@ class _TransactionsTabState extends State<TransactionsTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SpacingManager.h30,
+        SizedBox(height: 30.height()),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: SpacingManager.w10.width!),
+          padding: EdgeInsets.symmetric(horizontal: 10.width()),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CircleAvatar(
-                radius: SpacingManager.w15.width!,
+                radius: 15.width(),
                 backgroundColor: const Color(0x80B9B6B6),
                 child: const Icon(CupertinoIcons.arrow_up_right_circle_fill),
               ),
-              CircleAvatar(
-                radius: SpacingManager.w25.width,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(SpacingManager.w50.width!),
+              GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child: CircleAvatar(
+                  radius: 25.width(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50.width()),
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        SpacingManager.h10,
+        SizedBox(height: 10.height()),
         Expanded(
           child: ListView.builder(
             itemCount: 3,
@@ -44,13 +49,12 @@ class _TransactionsTabState extends State<TransactionsTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SpacingManager.w10.width!),
-                  padding: EdgeInsets.only(
-                      top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w15.width!),
+                  margin: EdgeInsets.only(left: 10.width()),
+                  padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 15.width()),
                   decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFB9B6B6), width: 0))),
                   child: const Text("date"),
                 ),
-                SpacingManager.h10,
+                SizedBox(height: 10.height()),
                 ...List.generate(5, (index) => const TransactionListTile())
               ],
             ),

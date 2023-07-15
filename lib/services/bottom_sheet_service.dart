@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:transacxi/constants/managers/asset_manager.dart';
-import 'package:transacxi/constants/managers/spacing_manager.dart';
 
+import '../constants/managers/asset_manager.dart';
+import '../constants/screen_size.dart';
+import '../extensions/num_extension.dart';
 import '../helpers/global_variables.dart';
 
 class BottomSheetService {
@@ -14,7 +15,8 @@ class BottomSheetService {
       showDragHandle: true,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))),
       builder: (context) => Wrap(
-        children: [SpacingManager.h40, child],
+        alignment: WrapAlignment.center,
+        children: [SizedBox(height: 40.height()), SizedBox(width: ScreenSize.width), child],
       ),
     );
   }
@@ -22,13 +24,13 @@ class BottomSheetService {
   static void showErrorSheet(String message) {
     _showRemovableSheet(
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: SpacingManager.w30.width!),
+        padding: EdgeInsets.symmetric(horizontal: 30.width()),
         child: Column(
           children: [
-            Image.asset(AssetManager.error, height: SpacingManager.h200.height),
-            SpacingManager.h15,
+            Image.asset(AssetManager.error, height: 200.height()),
+            SizedBox(height: 15.height()),
             Text(message, textAlign: TextAlign.center),
-            SpacingManager.h30,
+            SizedBox(height: 30.height()),
           ],
         ),
       ),

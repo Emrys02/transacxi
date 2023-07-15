@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants/managers/spacing_manager.dart';
+import '../../extensions/num_extension.dart';
 
 class DashboardOptions extends StatelessWidget {
   const DashboardOptions({super.key, required String label, required IconData icon, required VoidCallback function})
@@ -17,9 +17,9 @@ class DashboardOptions extends StatelessWidget {
     return InkWell(
       onTap: _function,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: SpacingManager.w10.width!, vertical: SpacingManager.h10.height!),
+        padding: EdgeInsets.symmetric(horizontal: 10.width(), vertical: 10.height()),
         decoration: BoxDecoration(color: const Color(0x4D888888), borderRadius: BorderRadius.circular(5)),
-        child: Column(children: [Icon(_icon), SpacingManager.h10, Text(_label)]),
+        child: Column(children: [Icon(_icon), SizedBox(height: 10.height()), Text(_label)]),
       ),
     );
   }

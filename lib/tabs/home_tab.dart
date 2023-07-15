@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../constants/managers/asset_manager.dart';
-import '../constants/managers/spacing_manager.dart';
 import '../constants/managers/string_manager.dart';
 import '../controllers/user_controller.dart';
+import '../extensions/num_extension.dart';
 import '../handlers/navigation_screen_handler.dart';
 import '../widgets/elements/dashboard_options.dart';
 import '../widgets/elements/transaction_list_tile.dart';
@@ -22,23 +22,28 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SpacingManager.h40,
+        SizedBox(height: 40.height()),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: SpacingManager.w10.width!),
+          padding: EdgeInsets.symmetric(horizontal: 10.width()),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset(AssetManager.logoMini),
-              CircleAvatar(
-                radius: SpacingManager.w25.width,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(SpacingManager.w50.width!),
+              GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                child: CircleAvatar(
+                  radius: 25.width(),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50.width()),
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        SpacingManager.h67,
+        SizedBox(height: 67.height()),
         Stack(
           alignment: Alignment.center,
           children: [
@@ -46,27 +51,27 @@ class _HomeTabState extends State<HomeTab> {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SpacingManager.h55,
+                SizedBox(height: 55.height()),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: SpacingManager.w30.width!, vertical: SpacingManager.h5.height!),
+                  padding: EdgeInsets.symmetric(horizontal: 30.width(), vertical: 5.height()),
                   decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFF888888)))),
                   child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [const Text(StringManager.naira), SpacingManager.w10, Text(_userController.currentUser.balance.toString())]),
+                      children: [const Text(StringManager.naira), SizedBox(width: 10.width()), Text(_userController.currentUser.balance.toString())]),
                 ),
-                SpacingManager.h18,
+                SizedBox(height: 18.height()),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DashboardOptions(label: StringManager.addMoney, icon: Icons.account_balance_wallet_outlined, function: () {}),
-                    SpacingManager.w20,
+                    SizedBox(width: 20.width()),
                     DashboardOptions(
                         label: StringManager.transactionHistory,
                         icon: Icons.schedule,
                         function: () {
                           _viewHanlder.changeCurrentView(3);
                         }),
-                    SpacingManager.w20,
+                    SizedBox(width: 20.width()),
                     DashboardOptions(label: StringManager.transfer, icon: Icons.swap_horiz_rounded, function: () {}),
                   ],
                 ),
@@ -74,14 +79,13 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ],
         ),
-        SpacingManager.w30,
+        SizedBox(width: 30.width()),
         Container(
-          padding: EdgeInsets.only(
-              top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w20.width!),
+          padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 20.width()),
           decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6)))),
           child: const Text(StringManager.recent),
         ),
-        SpacingManager.h5,
+        SizedBox(height: 5.height()),
         Expanded(
           child: ListView.builder(
             itemCount: 2,
@@ -89,13 +93,12 @@ class _HomeTabState extends State<HomeTab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: SpacingManager.w10.width!),
-                  padding: EdgeInsets.only(
-                      top: SpacingManager.h10.height!, bottom: SpacingManager.h10.height!, left: SpacingManager.w10.width!, right: SpacingManager.w15.width!),
+                  margin: EdgeInsets.only(left: 10.width()),
+                  padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 15.width()),
                   decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6), width: 0))),
                   child: const Text("date"),
                 ),
-                SpacingManager.h10,
+                SizedBox(height: 10.height()),
                 ...List.generate(2, (index) => const TransactionListTile())
               ],
             ),

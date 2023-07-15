@@ -27,6 +27,6 @@ class User {
         fullname: json["fullname"],
         accountNumber: json["accountNumber"],
         balance: json["balance"],
-        profileImage: json["profileImage"]);
+        profileImage: json["profileImage"] ?? "");
   }
 }
