@@ -8,4 +8,8 @@ extension Resolution on num {
   double height() {
     return (this / 852) * ScreenSize.height;
   }
+
+  Duration seconds() {
+    return Duration(seconds: toInt());
+  }
 }

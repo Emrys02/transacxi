@@ -12,6 +12,7 @@ import '../../handlers/auth_view_handler.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/user_details_provider.dart';
 import '../../screens/navigation_screen.dart';
+import '../../services/api_service.dart';
 import '../../services/bottom_sheet_service.dart';
 import '../elements/button_with_loading_indicator.dart';
 import '../elements/custom_text_fileld.dart';
@@ -67,6 +68,10 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
       if (AuthProvider.completedAction) AuthProvider.deleteUser();
       BottomSheetService.showErrorSheet(e.toString());
     }
+  }
+
+  Future<void> _retrieveBanks() async {
+    await ApiService.retrieveBanksList();
   }
 
   void _updateFullname(String value) {
@@ -145,7 +150,12 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
                       isPassword: true,
                     ),
                     SizedBox(height: 20.height()),
-                    LoadingButton(label: StringManager.signUp, onPressed: _submit),
+                    LoadingButton(
+                        label: StringManager.signUp,
+                        onPressed: () async {
+                          _retrieveBanks();
+                          await _submit();
+                        }),
                     SizedBox(height: 30.height()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

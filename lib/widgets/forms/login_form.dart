@@ -11,6 +11,7 @@ import '../../handlers/auth_view_handler.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/user_details_provider.dart';
 import '../../screens/navigation_screen.dart';
+import '../../services/api_service.dart';
 import '../../services/bottom_sheet_service.dart';
 import '../elements/button_with_loading_indicator.dart';
 import '../elements/custom_text_fileld.dart';
@@ -57,6 +58,7 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
       FocusScope.of(context).unfocus();
       final ref = await AuthProvider.login();
       await UserDetailsProvider.retrieveUserDetails(ref);
+      await ApiService.retrieveBanksList();
       if (mounted) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
       }
