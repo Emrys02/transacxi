@@ -5,8 +5,10 @@ import '../constants/managers/string_manager.dart';
 import '../controllers/user_controller.dart';
 import '../extensions/num_extension.dart';
 import '../handlers/navigation_screen_handler.dart';
+import '../services/bottom_sheet_service.dart';
 import '../widgets/elements/dashboard_options.dart';
 import '../widgets/elements/transaction_list_tile.dart';
+import '../widgets/elements/underlined_container.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -18,6 +20,16 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   final _viewHanlder = NavigationViewStateHandler();
   final _userController = UserController();
+
+  Widget get _image {
+    if (_userController.currentUser.profileImage.isNotEmpty) return Image.network(_userController.currentUser.profileImage);
+    return const SizedBox.shrink();
+  }
+
+  void _showFundWalletBottomSheet(){
+    BottomSheetService.showFundingSheet();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,14 +42,10 @@ class _HomeTabState extends State<HomeTab> {
             children: [
               Image.asset(AssetManager.logoMini),
               GestureDetector(
-                onTap: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
+                onTap: Scaffold.of(context).openEndDrawer,
                 child: CircleAvatar(
                   radius: 25.width(),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50.width()),
-                  ),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(25.width()), child: _image),
                 ),
               ),
             ],
@@ -63,14 +71,9 @@ class _HomeTabState extends State<HomeTab> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    DashboardOptions(label: StringManager.addMoney, icon: Icons.account_balance_wallet_outlined, function: () {}),
+                    DashboardOptions(label: StringManager.addMoney, icon: Icons.account_balance_wallet_outlined, function: _showFundWalletBottomSheet),
                     SizedBox(width: 20.width()),
-                    DashboardOptions(
-                        label: StringManager.transactionHistory,
-                        icon: Icons.schedule,
-                        function: () {
-                          _viewHanlder.changeCurrentView(3);
-                        }),
+                    DashboardOptions(label: StringManager.transactionHistory, icon: Icons.schedule, function: () => _viewHanlder.changeCurrentView(3)),
                     SizedBox(width: 20.width()),
                     DashboardOptions(label: StringManager.transfer, icon: Icons.swap_horiz_rounded, function: () {}),
                   ],
@@ -80,11 +83,7 @@ class _HomeTabState extends State<HomeTab> {
           ],
         ),
         SizedBox(width: 30.width()),
-        Container(
-          padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 20.width()),
-          decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6)))),
-          child: const Text(StringManager.recent),
-        ),
+        const UnderlinedContainer(text: StringManager.recent),
         SizedBox(height: 5.height()),
         Expanded(
           child: ListView.builder(
