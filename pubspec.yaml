@@ -11,12 +11,16 @@ environment:
 dependencies:
   cloud_firestore: ^4.8.1
   cupertino_icons: ^1.0.2
+  dio: ^5.2.1+1
+  encrypt: ^5.0.1
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
   firebase_database: ^10.2.3
   firebase_storage: ^11.2.3
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.1.0
+  flutterwave_standard: ^1.0.8
   image_picker: ^1.0.1
   shared_preferences: ^2.1.2
 
@@ -32,6 +36,7 @@ flutter:
 
   assets:
     - img/
+    - keys.env
 
   # fonts:
   #   - family: Schyler
