@@ -19,6 +19,10 @@ class AppTheme {
       onSurface: Color.fromRGBO(255, 255, 255, 1),
     ),
     buttonTheme: const ButtonThemeData(shape: StadiumBorder()),
+    dialogTheme: const DialogTheme(
+      backgroundColor: Color.fromRGBO(185, 182, 182, 1),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))),
+    ),
     textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Color.fromRGBO(255, 0, 0, 1)))),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(showSelectedLabels: false, showUnselectedLabels: false, type: BottomNavigationBarType.fixed),
     inputDecorationTheme: InputDecorationTheme(

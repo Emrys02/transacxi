@@ -35,6 +35,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 
   @override
+  void dispose() {
+    _viewHanlder.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

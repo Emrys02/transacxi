@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, FirebaseAuthException, FirebaseException;
+import 'package:transacxi/controllers/user_controller.dart';
 
 import '../controllers/new_user_controller.dart';
+import '../controllers/transaction_controller.dart';
 
 class AuthProvider {
   AuthProvider._();
@@ -57,8 +59,10 @@ class AuthProvider {
     AuthProvider.completedAction = false;
   }
 
-  static void logOut() async {
+  static Future<void> logOut() async {
     await _firebaseAuth.signOut();
+    UserController().dispose();
+    TransactionController().dispose();
     AuthProvider.completedAction = false;
   }
 }

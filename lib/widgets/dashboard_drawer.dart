@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:transacxi/screens/auth_screen.dart';
 
 import '../controllers/user_controller.dart';
 import '../extensions/num_extension.dart';
+import '../providers/auth_provider.dart';
 import '../providers/user_details_provider.dart';
 import 'elements/button_with_loading_indicator.dart';
 
@@ -19,7 +21,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
   final _userController = UserController();
   bool _uploadingImage = false;
   Widget get _image {
-    if (_userController.currentUser.profileImage.isNotEmpty) return Image.network(_userController.currentUser.profileImage);
+    if (_userController.currentUser.profileImage.isNotEmpty) return Image.network(_userController.currentUser.profileImage, fit: BoxFit.cover);
     return const Icon(Icons.camera_alt);
   }
 
@@ -39,6 +41,11 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
     });
   }
 
+  void _logout() async {
+    await AuthProvider.logOut();
+    if (mounted) Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const AuthScreen()), (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -49,22 +56,19 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
         children: [
           GestureDetector(
             onTap: _updateProfileImage,
-            child: CircleAvatar(
-              radius: 50.width(),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50.width()),
-                child: _image,
-              ),
+            child: SizedBox.square(
+              dimension: 80.width(),
+              child: ClipRRect(borderRadius: BorderRadius.circular(80.width()), child: _image),
             ),
           ),
-          SizedBox(height: 60.height()),
+          SizedBox(height: 50.height()),
           Text(_userController.currentUser.fullname),
-          SizedBox(height: 66.height()),
+          SizedBox(height: 23.height()),
           Text(_userController.currentUser.email),
           SizedBox(height: 23.height()),
           SizedBox(width: 155.width(), child: const LoadingButton(label: "Change Pin")),
           SizedBox(height: 11.height()),
-          TextButton(onPressed: () {}, child: const Text("Logout")),
+          TextButton(onPressed: _logout, child: const Text("Logout")),
         ],
       ),
     );

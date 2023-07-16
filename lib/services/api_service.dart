@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:transacxi/extensions/num_extension.dart';
 
 import '../constants/constants.dart';
+import '../extensions/num_extension.dart';
 import '../helpers/global_variables.dart';
 
 class ApiService {
@@ -13,22 +13,30 @@ class ApiService {
     final dio = Dio();
     dio.options = BaseOptions(
       baseUrl: "https://api.flutterwave.com/v3",
+      headers: {"Authorization": "Bearer $kFlutterwaveSecretKey"},
       connectTimeout: 20.seconds(),
-      headers: {"Authoriazation": "Bearer $kFlutterwaveSecretKey"},
       receiveTimeout: 30.seconds(),
-      responseType: ResponseType.json,
       sendTimeout: 20.seconds(),
+      responseType: ResponseType.json,
     );
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
           log(options.path);
           log(options.data.toString());
+          return handler.next(options);
         },
-        onResponse: (e, handler) {
-          log(e.statusCode.toString());
-          log(e.statusMessage.toString());
-          log(e.data.toString());
+        onResponse: (response, handler) {
+          log(response.statusCode.toString());
+          log(response.statusMessage.toString());
+          log(response.data.toString());
+          return handler.next(response);
+        },
+        onError: (e, handler) {
+          log(e.error.toString());
+          log(e.message.toString());
+          log(e.response.toString());
+          return handler.next(e);
         },
       ),
     );
@@ -39,22 +47,30 @@ class ApiService {
     final dio = Dio();
     dio.options = BaseOptions(
       baseUrl: "https://api.paystack.co",
+      headers: {"Authorization": "Bearer $kPaystackSecretKey"},
       connectTimeout: 20.seconds(),
-      headers: {"Authoriazation": "Bearer $kPaystackSecretKey"},
       receiveTimeout: 30.seconds(),
-      responseType: ResponseType.json,
       sendTimeout: 20.seconds(),
+      responseType: ResponseType.json,
     );
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
           log(options.path);
-          log(options.data.toString());
+          log("data: ${options.data}");
+          return handler.next(options);
         },
-        onResponse: (e, handler) {
-          log(e.statusCode.toString());
-          log(e.statusMessage.toString());
-          log(e.data.toString());
+        onResponse: (response, handler) {
+          log(response.statusCode.toString());
+          log(response.statusMessage.toString());
+          log(response.data.toString());
+          return handler.next(response);
+        },
+        onError: (e, handler) {
+          log(e.error.toString());
+          log(e.message.toString());
+          log(e.response.toString());
+          return handler.next(e);
         },
       ),
     );
@@ -63,8 +79,23 @@ class ApiService {
 
   static Future<void> retrieveBanksList() async {
     final ref = await _flutterwaveInit().get("/banks/NG");
+    log(ref.data.toString());
     for (var bank in ref.data["data"]) {
       banks.add(bank["name"]);
     }
   }
+
+  // static Future<void> paystackVerifyAccount() async {
+  //   // final ref = await _paystackInit().get("/banks/NG");
+  //   for (var bank in ref.data["data"]) {
+  //     banks.add(bank["name"]);
+  //   }
+  // }
+
+  // static Future<void> flutterwaveVerifyAccount() async {
+  //   final ref = await _flutterwaveInit().get("/banks/NG");
+  //   for (var bank in ref.data["data"]) {
+  //     banks.add(bank["name"]);
+  //   }
+  // }
 }
