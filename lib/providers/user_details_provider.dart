@@ -6,7 +6,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../controllers/new_user_controller.dart';
+import '../controllers/transaction_controller.dart';
 import '../controllers/user_controller.dart';
+import '../models/transaction.dart';
 import '../models/user.dart';
 
 class UserDetailsProvider {
@@ -14,6 +16,7 @@ class UserDetailsProvider {
 
   static final _userController = UserController();
   static final _newUserController = NewUserController();
+  static final _transactionController = TransactionController();
   static final _firebaseDatabase = FirebaseDatabase.instance;
   static final _firebaseStorage = FirebaseStorage.instance;
 
@@ -63,6 +66,30 @@ class UserDetailsProvider {
     } on Error catch (e) {
       log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
       throw "An error occured";
+    }
+  }
+
+  static Future<void> updateBalance() async {
+    try {
+      _calculateNewbalance();
+      _firebaseDatabase.ref(_userController.currentUser.id).update({"balance": _userController.currentUser.balance});
+    } on FirebaseException catch (e) {
+      log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
+      throw e.message.toString();
+    } on TimeoutException catch (e) {
+      log(e.toString(), error: TimeoutException, time: DateTime.now(), name: e.runtimeType.toString());
+      await updateBalance();
+    } on Error catch (e) {
+      log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
+      throw "An error occured";
+    }
+  }
+
+  static void _calculateNewbalance() {
+    if (_transactionController.transactionType == TransactionType.credit) {
+      _userController.newBalance = _userController.currentUser.balance + _transactionController.amount;
+    } else {
+      _userController.newBalance = _userController.currentUser.balance - _transactionController.amount;
     }
   }
 }

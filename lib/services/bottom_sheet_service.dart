@@ -9,11 +9,13 @@ import '../widgets/bottom_sheets/error_notice.dart';
 class BottomSheetService {
   BottomSheetService._();
 
-  static _showRemovableSheet(Widget child) {
-    showModalBottomSheet(
+  static Future<dynamic> _showRemovableSheet(Widget child) {
+    return showModalBottomSheet(
       context: navigationKey.currentContext!,
       isDismissible: true,
       showDragHandle: true,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(navigationKey.currentContext!).colorScheme.secondary,
       builder: (context) => Wrap(
         alignment: WrapAlignment.center,
         children: [SizedBox(height: 40.height()), SizedBox(width: ScreenSize.width), child],
@@ -25,7 +27,7 @@ class BottomSheetService {
     _showRemovableSheet(ErrorNotice(message));
   }
 
-  static void showFundingSheet() {
-    _showRemovableSheet(const EnterAmount());
+  static Future<void> showFundingSheet() {
+    return _showRemovableSheet(const EnterAmount());
   }
 }

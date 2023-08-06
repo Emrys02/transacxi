@@ -20,16 +20,16 @@ class AuthProvider {
       completedAction = true;
       return ref.user!.uid;
     } on FirebaseAuthException catch (e) {
-      log(e.toString(), error: FirebaseAuthException, time: DateTime.now(), name: e.runtimeType.toString());
+      log(e.toString(), error: FirebaseAuthException, time: DateTime.now(), name: "login error");
       throw e.message.toString();
     } on FirebaseException catch (e) {
-      log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
+      log(e.toString(), error: FirebaseException, time: DateTime.now(), name: "login error");
       throw e.message.toString();
     } on TimeoutException catch (e) {
-      log(e.toString(), error: TimeoutException, time: DateTime.now(), name: e.runtimeType.toString());
+      log(e.toString(), error: TimeoutException, time: DateTime.now(), name: "login error");
       throw "Request Timeout";
     } on Error catch (e) {
-      log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
+      log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: "login error");
       throw "An error occured";
     }
   }

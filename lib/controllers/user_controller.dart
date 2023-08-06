@@ -10,6 +10,10 @@ class UserController {
     return _currentUser!;
   }
 
+  set newBalance(double value){
+    _currentUser!.balance = value;
+  }
+
   void initialize(User user) {
     _currentUser = user;
   }

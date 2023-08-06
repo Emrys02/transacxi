@@ -1,13 +1,17 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
 import '../constants/constants.dart';
+import '../controllers/transaction_controller.dart';
 import '../extensions/num_extension.dart';
 import '../helpers/global_variables.dart';
 
 class ApiService {
   ApiService._();
+
+  static final _transactionController = TransactionController();
 
   static Dio _flutterwaveInit() {
     final dio = Dio();
@@ -83,6 +87,14 @@ class ApiService {
     for (var bank in ref.data["data"]) {
       banks.add(bank["name"]);
     }
+  }
+
+  static Future<void> initializePaystack({required String email, required int amount}) async {
+    final payload = {"email": email, "amount": amount};
+    final ref = await _paystackInit().post("/transaction/initialize", data: jsonEncode(payload));
+    log(ref.data.toString());
+    _transactionController.updateTxRef = ref.data["reference"];
+    _transactionController.updateAccessCode = ref.data["access_code"];
   }
 
   // static Future<void> paystackVerifyAccount() async {

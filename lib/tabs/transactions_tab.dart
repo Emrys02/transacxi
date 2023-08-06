@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 
+import '../controllers/user_controller.dart';
 import '../extensions/num_extension.dart';
 import '../widgets/elements/transaction_list_tile.dart';
 
@@ -12,6 +13,13 @@ class TransactionsTab extends StatefulWidget {
 }
 
 class _TransactionsTabState extends State<TransactionsTab> {
+  final _userController = UserController();
+
+  Widget get _image {
+    if (_userController.currentUser.profileImage.isNotEmpty) return Image.network(_userController.currentUser.profileImage, fit: BoxFit.cover);
+    return const SizedBox.shrink();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,11 +39,9 @@ class _TransactionsTabState extends State<TransactionsTab> {
                 onTap: () {
                   Scaffold.of(context).openEndDrawer();
                 },
-                child: CircleAvatar(
-                  radius: 25.width(),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50.width()),
-                  ),
+                child: SizedBox.square(
+                  dimension: 50.width(),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(25.width()), child: _image),
                 ),
               ),
             ],

@@ -6,7 +6,7 @@ class User {
   String email;
   String accountNumber;
   String profileImage;
-  dynamic balance;
+  double balance;
   User({
     required this.id,
     required this.email,

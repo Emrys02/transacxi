@@ -9,4 +9,6 @@ class AssetManager {
   static const loginBackground = "img/login_background.png";
   static const signUpBackground = "img/sign_up_background.png";
   static const transactionIcon = "img/transaction_icon.png";
+  static const paystackIcon = "img/paystack.svg";
+  static const flutterwaveIcon = "img/flutterwave.svg";
 }

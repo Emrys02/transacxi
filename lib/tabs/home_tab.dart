@@ -26,8 +26,9 @@ class _HomeTabState extends State<HomeTab> {
     return const SizedBox.shrink();
   }
 
-  void _showFundWalletBottomSheet() {
-    BottomSheetService.showFundingSheet();
+  void _showFundWalletBottomSheet() async {
+    await BottomSheetService.showFundingSheet();
+    setState(() {});
   }
 
   @override

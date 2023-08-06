@@ -32,6 +32,7 @@ class AppTheme {
         enabledBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
         errorBorder: InputBorder.none,
+        prefixStyle: TextStyle(),
         hintStyle: TextStyles.w400s9.copyWith(color: const Color(0xFF888888))),
     useMaterial3: true,
   );

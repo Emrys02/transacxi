@@ -1,2 +1,3 @@
 enum Provider { flutterwave, paystack }
-enum TransactionType{credit, debit}
+
+enum TransactionType { credit, debit }

@@ -7,11 +7,12 @@ import '../controllers/transaction_controller.dart';
 import '../controllers/user_controller.dart';
 
 class TransactionProvider {
-  final _firestore = FirebaseFirestore.instance;
-  final _userController = UserController();
-  final _transactionController = TransactionController();
+  TransactionProvider._();
+  static final _firestore = FirebaseFirestore.instance;
+  static final _userController = UserController();
+  static final _transactionController = TransactionController();
 
-  Future<void> retrieveTransactions() async {
+  static Future<void> retrieveTransactions() async {
     try {
       final data = await _firestore.collection("transactions").doc(_userController.currentUser.id).get();
       data.data();
@@ -27,23 +28,26 @@ class TransactionProvider {
     }
   }
 
-  Future<void> saveTransactions() async {
+  static Future<void> saveTransactions() async {
     try {
-      await _firestore.collection("transactions").doc(_userController.currentUser.id).set({
-        _transactionController.id: {
-          "reference": _transactionController.txRef,
-          "amount": _transactionController.amount,
-          "type": _transactionController.transactionType,
-          "provider": _transactionController.provider,
-          "currency": _transactionController.currency,
-        }
+      await _firestore
+          .collection("transactions")
+          .doc(_userController.currentUser.id)
+          .collection(DateTime.now().toIso8601String())
+          .doc(_transactionController.id)
+          .set({
+        "reference": _transactionController.txRef,
+        "amount": _transactionController.amount,
+        "type": _transactionController.transactionType!.name,
+        "provider": _transactionController.provider!.name,
+        "currency": _transactionController.currency,
       });
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();
     } on TimeoutException catch (e) {
       log(e.toString(), error: TimeoutException, time: DateTime.now(), name: e.runtimeType.toString());
-      throw "Request Timeout";
+      await saveTransactions();
     } on Error catch (e) {
       log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
       throw "An error occured";

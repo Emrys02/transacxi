@@ -8,7 +8,8 @@ class TransactionController {
   String? _id;
   int? _amount = 0;
   String? _txRef = "";
-  final String _currency = "NG";
+  String? _accessCode = "";
+  final String _currency = "NGN";
   Provider? _provider;
   TransactionType? _transactionType;
 
@@ -22,6 +23,10 @@ class TransactionController {
 
   String get txRef {
     return _txRef ?? "";
+  }
+
+  String get accessCode {
+    return _accessCode ?? "";
   }
 
   String get currency {
@@ -38,6 +43,10 @@ class TransactionController {
 
   set updateTxRef(String value) {
     _txRef = value;
+  }
+
+  set updateAccessCode(String value) {
+    _accessCode = value;
   }
 
   set updateTxId(String value) {
