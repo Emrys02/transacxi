@@ -17,5 +17,7 @@ class StringManager {
   static const signUp = "Sign Up";
   static const transacxi = "Transacxi";
   static const transfer = "Transfer";
+  static const recentTransactionHere = "Recent transactions wiil appear here";
+  static const allTransactionHere = "Transactions wiil appear here";
   static const transactionHistory = "Transaction History";
 }

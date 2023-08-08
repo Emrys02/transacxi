@@ -5,17 +5,12 @@ class TransactionController {
   static final _initialize = TransactionController._internal();
   factory TransactionController() => _initialize;
 
-  String? _id;
   int? _amount = 0;
   String? _txRef = "";
   String? _accessCode = "";
   final String _currency = "NGN";
   Provider? _provider;
   TransactionType? _transactionType;
-
-  String get id {
-    return _id ?? "";
-  }
 
   int get amount {
     return _amount ?? 0;
@@ -47,10 +42,6 @@ class TransactionController {
 
   set updateAccessCode(String value) {
     _accessCode = value;
-  }
-
-  set updateTxId(String value) {
-    _id = value;
   }
 
   set updateProvider(Provider value) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../handlers/navigation_screen_handler.dart';
+import '../services/bottom_sheet_service.dart';
 import '../tabs/home_tab.dart';
 import '../tabs/transactions_tab.dart';
 import '../widgets/dashboard_drawer.dart';
@@ -32,6 +33,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   void _updateCurrentView(int value) {
     _viewHanlder.changeCurrentView(value);
+    if (value == 1) _showFundWalletBottomSheet();
+  }
+
+  void _showFundWalletBottomSheet() async {
+    await BottomSheetService.showFundingSheet();
+    setState(() {});
   }
 
   @override

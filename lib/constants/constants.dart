@@ -12,12 +12,3 @@ String kFlutterwavePublicKey = dotenv.get("flutterWavePublicKey");
 String kFlutterwaveSecretKey = dotenv.get("flutterWaveSecretKey");
 String kPaystackPublicKey = dotenv.get("PaystackPublicKey");
 String kPaystackSecretKey = dotenv.get("PaystackSecretKey");
-
-List<int> _convertList(List data) {
-  final temp = <int>[];
-  for (var num in data) {
-    temp.add(num);
-  }
-  log(temp.length.toString());
-  return temp;
-}

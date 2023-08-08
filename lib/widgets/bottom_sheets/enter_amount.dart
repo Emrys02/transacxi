@@ -60,7 +60,6 @@ class _EnterAmountState extends State<EnterAmount> {
         isTestMode: true,
         currency: _transactionController.currency,
       ).charge();
-      _transactionController.updateTxId = ref.transactionId.toString();
       if (ref.status == "completed") {
         await _saveTransaction();
         await _updateBalance();

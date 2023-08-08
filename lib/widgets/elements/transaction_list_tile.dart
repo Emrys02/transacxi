@@ -3,10 +3,31 @@ import 'package:flutter/material.dart';
 import '../../constants/managers/asset_manager.dart';
 import '../../constants/managers/string_manager.dart';
 import '../../constants/screen_size.dart';
+import '../../controllers/user_controller.dart';
 import '../../extensions/num_extension.dart';
+import '../../models/transaction.dart';
+import '../../models/user.dart';
 
-class TransactionListTile extends StatelessWidget {
-  const TransactionListTile({super.key});
+class TransactionListTile extends StatefulWidget {
+  const TransactionListTile({Transaction? transaction, super.key}) : _transaction = transaction;
+  final Transaction? _transaction;
+
+  @override
+  State<TransactionListTile> createState() => _TransactionListTileState();
+}
+
+class _TransactionListTileState extends State<TransactionListTile> {
+  final User _user = UserController().currentUser;
+
+  Color get _amountColor {
+    if (widget._transaction?.type == TransactionType.credit) return Colors.green;
+    return Colors.red;
+  }
+
+  String get _amountSymbol {
+    if (widget._transaction?.type == TransactionType.credit) return "+";
+    return "-";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +44,11 @@ class TransactionListTile extends StatelessWidget {
         children: [
           Image.asset(AssetManager.transactionIcon),
           SizedBox(height: 30.width()),
-          const Text("receiver"),
-          const Expanded(child: Text("-${StringManager.naira}amount", textAlign: TextAlign.right)),
+          Text(widget._transaction?.receiver ?? _user.fullname),
+          Expanded(
+            child:
+                Text("$_amountSymbol${StringManager.naira}${widget._transaction?.amount}", textAlign: TextAlign.right, style: TextStyle(color: _amountColor)),
+          ),
         ],
       ),
     );

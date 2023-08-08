@@ -93,8 +93,8 @@ class ApiService {
     final payload = {"email": email, "amount": amount};
     final ref = await _paystackInit().post("/transaction/initialize", data: jsonEncode(payload));
     log(ref.data.toString());
-    _transactionController.updateTxRef = ref.data["reference"];
-    _transactionController.updateAccessCode = ref.data["access_code"];
+    _transactionController.updateTxRef = ref.data["data"]["reference"];
+    _transactionController.updateAccessCode = ref.data["data"]["access_code"];
   }
 
   // static Future<void> paystackVerifyAccount() async {

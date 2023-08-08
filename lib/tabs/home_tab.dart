@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constants/managers/asset_manager.dart';
 import '../constants/managers/string_manager.dart';
 import '../controllers/user_controller.dart';
 import '../extensions/num_extension.dart';
 import '../handlers/navigation_screen_handler.dart';
+import '../models/transaction.dart';
+import '../providers/transactions_provider.dart';
 import '../services/bottom_sheet_service.dart';
 import '../widgets/elements/dashboard_options.dart';
 import '../widgets/elements/transaction_list_tile.dart';
@@ -66,7 +71,7 @@ class _HomeTabState extends State<HomeTab> {
                   decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFF888888)))),
                   child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [const Text(StringManager.naira), SizedBox(width: 10.width()), Text(_userController.currentUser.balance.toString())]),
+                      children: [const Text(StringManager.naira), SizedBox(width: 10.width()), Text(_userController.currentUser.balance.toStringAsFixed(2))]),
                 ),
                 SizedBox(height: 18.height()),
                 Row(
@@ -87,21 +92,46 @@ class _HomeTabState extends State<HomeTab> {
         const UnderlinedContainer(text: StringManager.recent),
         SizedBox(height: 5.height()),
         Expanded(
-          child: ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context, index) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10.width()),
-                  padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 15.width()),
-                  decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6), width: 0))),
-                  child: const Text("date"),
+          child: StreamBuilder(
+            stream: TransactionProvider.transactions,
+            builder: (context, snapshot) {
+              print(snapshot.connectionState);
+              if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (context, index) => Shimmer.fromColors(
+                    baseColor: Theme.of(context).colorScheme.primary,
+                    highlightColor: Theme.of(context).colorScheme.onPrimary,
+                    child: const TransactionListTile(),
+                  ),
+                );
+              }
+              if (!snapshot.hasData) {
+                return const Center(child: Text(StringManager.recentTransactionHere));
+              }
+              return ListView.builder(
+                itemCount: min(3, snapshot.data?.size ?? 0),
+                itemBuilder: (context, index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 10.width()),
+                      padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 15.width()),
+                      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6), width: 0))),
+                      child: Text("${snapshot.data?.docs[index].id}"),
+                    ),
+                    SizedBox(height: 10.height()),
+                    ...List.generate(
+                      snapshot.data?.docs[index].data().length ?? 0,
+                      (index2) => TransactionListTile(
+                          transaction: Transaction.fromJson({
+                        snapshot.data?.docs[index].data().entries.elementAt(index2).key ?? "": snapshot.data?.docs[index].data().entries.elementAt(index2).value
+                      })),
+                    )
+                  ],
                 ),
-                SizedBox(height: 10.height()),
-                ...List.generate(2, (index) => const TransactionListTile())
-              ],
-            ),
+              );
+            },
           ),
         ),
       ],
