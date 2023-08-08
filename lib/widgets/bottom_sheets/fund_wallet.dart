@@ -19,14 +19,14 @@ import '../elements/button_with_loading_indicator.dart';
 import '../elements/provider_radio.dart';
 import '../elements/underlined_container.dart';
 
-class EnterAmount extends StatefulWidget {
-  const EnterAmount({super.key});
+class FundWallet extends StatefulWidget {
+  const FundWallet({super.key});
 
   @override
-  State<EnterAmount> createState() => _EnterAmountState();
+  State<FundWallet> createState() => _FundWalletState();
 }
 
-class _EnterAmountState extends State<EnterAmount> {
+class _FundWalletState extends State<FundWallet> {
   final paystackPlugin = PaystackPlugin();
   final _transactionController = TransactionController();
   final _userController = UserController();
@@ -128,12 +128,12 @@ class _EnterAmountState extends State<EnterAmount> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PaymentProviderRadio(
-                color: const Color(0xFF0BA4DB),
+              const PaymentProviderRadio(
+                color: Color(0xFF0BA4DB),
                 logo: AssetManager.paystackIcon,
                 provider: Provider.paystack,
                 text: "Paystack",
-                onTap: _changeProvider,
+                // onTap: _changeProvider,
               ),
               PaymentProviderRadio(
                 color: const Color(0xFFFB9129),

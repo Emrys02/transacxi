@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../constants/screen_size.dart';
 import '../extensions/num_extension.dart';
 import '../helpers/global_variables.dart';
-import '../widgets/bottom_sheets/enter_amount.dart';
 import '../widgets/bottom_sheets/error_notice.dart';
+import '../widgets/bottom_sheets/fund_wallet.dart';
 
 class BottomSheetService {
   BottomSheetService._();
@@ -28,6 +28,6 @@ class BottomSheetService {
   }
 
   static Future<void> showFundingSheet() {
-    return _showRemovableSheet(const EnterAmount());
+    return _showRemovableSheet(const FundWallet());
   }
 }
