@@ -5,6 +5,8 @@ import '../extensions/num_extension.dart';
 import '../helpers/global_variables.dart';
 import '../widgets/bottom_sheets/error_notice.dart';
 import '../widgets/bottom_sheets/fund_wallet.dart';
+import '../widgets/bottom_sheets/transfer_destination.dart';
+import '../widgets/bottom_sheets/transfer_details.dart';
 
 class BottomSheetService {
   BottomSheetService._();
@@ -29,5 +31,13 @@ class BottomSheetService {
 
   static Future<void> showFundingSheet() {
     return _showRemovableSheet(const FundWallet());
+  }
+
+  static Future<void> showTransferDestinationSheet() {
+    return _showRemovableSheet(const TransferDestination());
+  }
+
+  static Future<void> showTransferDetailsSheet() {
+    return _showRemovableSheet(const TransferDetails());
   }
 }

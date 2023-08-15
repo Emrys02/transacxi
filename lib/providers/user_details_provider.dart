@@ -71,8 +71,19 @@ class UserDetailsProvider {
 
   static Future<void> updateBalance() async {
     try {
-      _calculateNewbalance();
-      await _firebaseDatabase.ref(_userController.currentUser.id).child("balance").set(_userController.currentUser.balance);
+      await _firebaseDatabase.ref(_userController.currentUser.id).child("balance").set(_calculateNewbalance(_userController.currentUser.balance));
+      if (_transactionController.provider == Provider.flutterwave) {
+        await _firebaseDatabase
+            .ref(_userController.currentUser.id)
+            .child("flutterwaveBalance")
+            .set(_calculateNewbalance(_userController.currentUser.flutterwaveBalance));
+      }
+      if (_transactionController.provider == Provider.paystack) {
+        await _firebaseDatabase
+            .ref(_userController.currentUser.id)
+            .child("paystackBalance")
+            .set(_calculateNewbalance( _userController.currentUser.paystackBalance));
+      }
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();
@@ -85,11 +96,7 @@ class UserDetailsProvider {
     }
   }
 
-  static void _calculateNewbalance() {
-    if (_transactionController.transactionType == TransactionType.credit) {
-      _userController.newBalance = _userController.currentUser.balance + _transactionController.amount;
-    } else {
-      _userController.newBalance = _userController.currentUser.balance - _transactionController.amount;
-    }
+  static double _calculateNewbalance(double balance) {
+    return balance + _transactionController.amount;
   }
 }

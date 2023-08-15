@@ -71,7 +71,7 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
   }
 
   Future<void> _retrieveBanks() async {
-    await ApiService.retrieveBanksList();
+    await ApiService.retrieveFlutterwaveBanksList();
   }
 
   void _updateFullname(String value) {

@@ -11,6 +11,11 @@ class TransactionController {
   final String _currency = "NGN";
   Provider? _provider;
   TransactionType? _transactionType;
+  String? _destination;
+  String? _flutterwaveCode;
+  String? _paystackCode;
+  double _flutterwaveAmount = 0;
+  double _paystackAmount = 0;
 
   int get amount {
     return _amount ?? 0;
@@ -26,6 +31,26 @@ class TransactionController {
 
   String get currency {
     return _currency;
+  }
+
+  String get destination {
+    return _destination ?? "";
+  }
+
+  String get flutterwaveCode {
+    return _flutterwaveCode ?? "";
+  }
+
+  String get paystackCode {
+    return _paystackCode ?? "";
+  }
+
+  double get flutterwaveAmount {
+    return _flutterwaveAmount;
+  }
+
+  double get paystackAmount {
+    return _paystackAmount;
   }
 
   Provider? get provider {
@@ -52,6 +77,26 @@ class TransactionController {
     _transactionType = value;
   }
 
+  set updateDestinaiton(String value) {
+    _destination = value;
+  }
+
+  set updateFlutterwaveCode(String? value) {
+    _flutterwaveCode = value;
+  }
+
+  set updatePaystackCode(String? value) {
+    _paystackCode = value;
+  }
+
+  set updatePaystackAmount(double value) {
+    _paystackAmount = value;
+  }
+
+  set updateFlutterwaveAmount(double value) {
+    _flutterwaveAmount = value;
+  }
+
   void updateAmount(String? value) {
     if (value == null) return;
     _amount = int.parse(value);
@@ -62,5 +107,11 @@ class TransactionController {
     _txRef = null;
     _transactionType = null;
     _provider = null;
+    _destination = null;
+    _accessCode = null;
+    _flutterwaveAmount = 0;
+    _paystackAmount = 0;
+    _flutterwaveCode = null;
+    _paystackCode = null;
   }
 }

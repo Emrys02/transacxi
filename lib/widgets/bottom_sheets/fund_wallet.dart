@@ -69,6 +69,8 @@ class _FundWalletState extends State<FundWallet> {
       if (!mounted) return;
       final ref = await paystackPlugin.checkout(
         context,
+        fullscreen: true,
+        method: CheckoutMethod.bank,
         charge: Charge()
           ..amount = _transactionController.amount * 100
           ..currency = _transactionController.currency

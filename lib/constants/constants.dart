@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:encrypt/encrypt.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

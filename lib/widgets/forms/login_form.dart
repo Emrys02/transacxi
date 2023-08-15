@@ -61,14 +61,15 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
       FocusScope.of(context).unfocus();
       final ref = await AuthProvider.login();
       await UserDetailsProvider.retrieveUserDetails(ref);
-      await ApiService.retrieveBanksList();
+      await ApiService.retrieveFlutterwaveBanksList();
+      await ApiService.retrievePaystackBanksList();
       if (mounted) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
       }
     } on DioException catch (e) {
       log(e.toString());
       if (e.response!.statusCode! >= 500) {
-      //TODO: provide proper handling
+        //TODO: provide proper handling
         BottomSheetService.showErrorSheet("An unknown error occured");
         if (mounted) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));

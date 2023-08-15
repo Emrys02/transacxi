@@ -1,7 +1,6 @@
-import 'dart:math';
+import 'dart:math' show min;
 
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../constants/managers/asset_manager.dart';
 import '../constants/managers/string_manager.dart';
@@ -34,6 +33,10 @@ class _HomeTabState extends State<HomeTab> {
   void _showFundWalletBottomSheet() async {
     await BottomSheetService.showFundingSheet();
     setState(() {});
+  }
+
+  void _showTransferBottomSheet() {
+    BottomSheetService.showTransferDestinationSheet();
   }
 
   @override
@@ -81,7 +84,7 @@ class _HomeTabState extends State<HomeTab> {
                     SizedBox(width: 20.width()),
                     DashboardOptions(label: StringManager.transactionHistory, icon: Icons.schedule, function: () => _viewHanlder.changeCurrentView(3)),
                     SizedBox(width: 20.width()),
-                    DashboardOptions(label: StringManager.transfer, icon: Icons.swap_horiz_rounded, function: () {}),
+                    DashboardOptions(label: StringManager.transfer, icon: Icons.swap_horiz_rounded, function: _showTransferBottomSheet),
                   ],
                 ),
               ],
@@ -95,17 +98,16 @@ class _HomeTabState extends State<HomeTab> {
           child: StreamBuilder(
             stream: TransactionProvider.transactions,
             builder: (context, snapshot) {
-              print(snapshot.connectionState);
-              if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (context, index) => Shimmer.fromColors(
-                    baseColor: Theme.of(context).colorScheme.primary,
-                    highlightColor: Theme.of(context).colorScheme.onPrimary,
-                    child: const TransactionListTile(),
-                  ),
-                );
-              }
+              // if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+              //   return ListView.builder(
+              //     itemCount: 3,
+              //     itemBuilder: (context, index) => Shimmer.fromColors(
+              //       baseColor: Theme.of(context).colorScheme.primary,
+              //       highlightColor: Theme.of(context).colorScheme.onPrimary,
+              //       child: const TransactionListTile(),
+              //     ),
+              //   );
+              // }
               if (!snapshot.hasData) {
                 return const Center(child: Text(StringManager.recentTransactionHere));
               }

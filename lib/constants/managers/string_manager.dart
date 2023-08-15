@@ -1,8 +1,14 @@
 class StringManager {
   StringManager._();
 
+  static const accountNumber = "Account Number";
+  static const amountToTransfer = "Amount To Transfer";
   static const addMoney = "Add Money";
+  static const allTransactionHere = "Transactions wiil appear here";
+  static const anotherBank = "To Another Bank";
+  static const anotherWallet = "To Another TX Wallet";
   static const confirmPassword = "Confirm Password";
+  static const destinationBank = "Destination Bank";
   static const dontHaveAccount = "I don't have an account ";
   static const haveAccount = "Already have an account ";
   static const emailAddress = "Email Address";
@@ -13,11 +19,10 @@ class StringManager {
   static const password = "Password";
   static const proceed = "Proceed";
   static const recent = "Recent";
+  static const recentTransactionHere = "Recent transactions wiil appear here";
   static const signup = "sign up";
   static const signUp = "Sign Up";
   static const transacxi = "Transacxi";
   static const transfer = "Transfer";
-  static const recentTransactionHere = "Recent transactions wiil appear here";
-  static const allTransactionHere = "Transactions wiil appear here";
   static const transactionHistory = "Transaction History";
 }

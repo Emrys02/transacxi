@@ -18,9 +18,9 @@ class ApiService {
     dio.options = BaseOptions(
       baseUrl: "https://api.flutterwave.com/v3",
       headers: {"Authorization": "Bearer $kFlutterwaveSecretKey"},
-      connectTimeout: 20.seconds(),
-      receiveTimeout: 30.seconds(),
-      sendTimeout: 20.seconds(),
+      connectTimeout: 15.seconds(),
+      receiveTimeout: 15.seconds(),
+      sendTimeout: 15.seconds(),
       responseType: ResponseType.json,
     );
     dio.interceptors.add(
@@ -52,9 +52,9 @@ class ApiService {
     dio.options = BaseOptions(
       baseUrl: "https://api.paystack.co",
       headers: {"Authorization": "Bearer $kPaystackSecretKey"},
-      connectTimeout: 20.seconds(),
-      receiveTimeout: 30.seconds(),
-      sendTimeout: 20.seconds(),
+      connectTimeout: 15.seconds(),
+      receiveTimeout: 15.seconds(),
+      sendTimeout: 15.seconds(),
       responseType: ResponseType.json,
     );
     dio.interceptors.add(
@@ -81,12 +81,34 @@ class ApiService {
     return dio;
   }
 
-  static Future<void> retrieveBanksList() async {
+  static Future<void> retrieveFlutterwaveBanksList() async {
     final ref = await _flutterwaveInit().get("/banks/NG");
     log(ref.data.toString());
     for (var bank in ref.data["data"]) {
-      banks.add(bank["name"]);
+      if (banks.any((element) => element.name == bank["name"])) {
+        final index = banks.indexWhere((element) => element.name == bank["name"]);
+        final data = banks[index];
+        banks.removeAt(index);
+        data.flutterwaveCode = bank["code"];
+        banks.insert(index, data);
+      }
     }
+    banks.sort((a, b) => a.name.length.compareTo(b.name.length));
+  }
+
+  static Future<void> retrievePaystackBanksList() async {
+    final ref = await _paystackInit().get("/bank", data: {"country": "nigeria", "perPage": 100, "currency": "NGN"});
+    log(ref.data.toString());
+    for (var bank in ref.data["data"]) {
+      if (banks.any((element) => element.name == bank["name"])) {
+        final index = banks.indexWhere((element) => element.name == bank["name"]);
+        final data = banks[index];
+        banks.removeAt(index);
+        data.paystackCode = bank["code"];
+        banks.insert(index, data);
+      }
+    }
+    banks.sort((a, b) => a.name.length.compareTo(b.name.length));
   }
 
   static Future<void> initializePaystack({required String email, required int amount}) async {

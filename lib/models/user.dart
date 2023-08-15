@@ -1,3 +1,5 @@
+import 'transaction.dart';
+
 class User {
   String id;
   String firstname;
@@ -7,6 +9,9 @@ class User {
   String accountNumber;
   String profileImage;
   double balance;
+  double flutterwaveBalance;
+  double paystackBalance;
+  List<Transaction> transactions;
   User({
     required this.id,
     required this.email,
@@ -15,6 +20,9 @@ class User {
     required this.fullname,
     required this.accountNumber,
     required this.balance,
+    required this.flutterwaveBalance,
+    required this.paystackBalance,
+    this.transactions = const [],
     this.profileImage = "",
   });
 
@@ -27,6 +35,8 @@ class User {
         fullname: json["fullname"],
         accountNumber: json["accountNumber"],
         balance: json["balance"],
+        flutterwaveBalance: json["flutterwaveBalance"] ?? 0,
+        paystackBalance: json["paystackBalance"] ?? 0,
         profileImage: json["profileImage"] ?? "");
   }
 }
