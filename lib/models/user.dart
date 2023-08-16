@@ -8,6 +8,7 @@ class User {
   String email;
   String username;
   String profileImage;
+  String? pin;
   double balance;
   double flutterwaveBalance;
   double paystackBalance;
@@ -24,6 +25,7 @@ class User {
     required this.paystackBalance,
     required this.transactions,
     this.profileImage = "",
+    this.pin,
   });
 
   static User fromMap(String id, Map json) {
@@ -37,6 +39,7 @@ class User {
         balance: json["balance"],
         flutterwaveBalance: json["flutterwaveBalance"] ?? 0,
         paystackBalance: json["paystackBalance"] ?? 0,
+        pin: json["pin"],
         transactions: {},
         profileImage: json["profileImage"] ?? "");
   }

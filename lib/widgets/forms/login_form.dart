@@ -9,10 +9,12 @@ import '../../constants/managers/text_style_manager.dart';
 import '../../constants/screen_size.dart';
 import '../../constants/validators/input_validators.dart';
 import '../../controllers/new_user_controller.dart';
+import '../../controllers/user_controller.dart';
 import '../../extensions/num_extension.dart';
 import '../../handlers/auth_view_handler.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/user_details_provider.dart';
+import '../../screens/create_pin_screen.dart';
 import '../../screens/navigation_screen.dart';
 import '../../services/api_service.dart';
 import '../../services/bottom_sheet_service.dart';
@@ -30,6 +32,7 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
   final _authViewState = AuthViewStateHandler();
   final _formKey = GlobalKey<FormState>();
   final _newUserController = NewUserController();
+  final _userController = UserController();
 
   @override
   void initState() {
@@ -55,6 +58,15 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  void _navigateToNextPage() {
+    if (_userController.currentUser.pin == null) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CreatePinScreen()));
+      return;
+    }
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
+    return;
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     try {
@@ -63,21 +75,11 @@ class _LoginFormState extends State<LoginForm> with WidgetsBindingObserver {
       await UserDetailsProvider.retrieveUserDetails(ref);
       await ApiService.retrieveFlutterwaveBanksList();
       await ApiService.retrievePaystackBanksList();
-      if (mounted) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
-      }
+      _navigateToNextPage();
     } on DioException catch (e) {
       log(e.toString());
-      if (e.response!.statusCode! >= 500) {
-        //TODO: provide proper handling
-        BottomSheetService.showErrorSheet("An unknown error occured");
-        if (mounted) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
-        }
-      } else {
-        BottomSheetService.showErrorSheet(e.toString());
-        if (AuthProvider.completedAction) AuthProvider.logOut();
-      }
+      BottomSheetService.showErrorSheet(e.toString());
+      if (AuthProvider.completedAction) AuthProvider.logOut();
     } catch (e) {
       log(e.toString());
       if (AuthProvider.completedAction) AuthProvider.logOut();

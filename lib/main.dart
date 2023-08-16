@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       title: "Transcaxi",
       theme: AppTheme.primary,
       home: const AuthScreen(),
+      builder: (context, child) => SafeArea(child: child!),
       navigatorKey: navigationKey,
     );
   }

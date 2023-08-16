@@ -24,7 +24,12 @@ class AppTheme {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50))),
     ),
     textButtonTheme: const TextButtonThemeData(style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Color(0xFFFF0000)))),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(showSelectedLabels: false, showUnselectedLabels: false, type: BottomNavigationBarType.fixed),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Color(0xFF333333),
+    ),
     inputDecorationTheme: InputDecorationTheme(
         fillColor: const Color(0xFFB9B6B6),
         filled: true,

@@ -14,6 +14,7 @@ class StringManager {
   static const emailAddress = "Email Address";
   static const fullName = "Fullname";
   static const fundWallet = "Fund Wallet";
+  static const inputYourPin = "Input your pin";
   static const login = "Login";
   static const naira = "₦";
   static const password = "Password";

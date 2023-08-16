@@ -56,7 +56,7 @@ class UserDetailsProvider {
   static Future<void> uploadProfileImage(File image) async {
     try {
       final ref = await _firebaseStorage.ref(_userController.currentUser.id).putFile(image, SettableMetadata(contentType: "image"));
-      _firebaseDatabase.ref(_userController.currentUser.id).update({"profileImage": await ref.ref.getDownloadURL()});
+      _firebaseDatabase.ref("users").child(_userController.currentUser.id).update({"profileImage": await ref.ref.getDownloadURL()});
       _userController.currentUser.profileImage = await ref.ref.getDownloadURL();
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
@@ -86,6 +86,22 @@ class UserDetailsProvider {
             .set(_calculateNewbalance(_userController.currentUser.paystackBalance));
       }
       _userController.currentUser.balance = _calculateNewbalance(_userController.currentUser.balance);
+    } on FirebaseException catch (e) {
+      log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
+      throw e.message.toString();
+    } on TimeoutException catch (e) {
+      log(e.toString(), error: TimeoutException, time: DateTime.now(), name: e.runtimeType.toString());
+      await updateBalance();
+    } on Error catch (e) {
+      log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
+      throw "An error occured";
+    }
+  }
+
+  static Future<void> updatePin(String pin) async {
+    try {
+      await _firebaseDatabase.ref("users").child(_userController.currentUser.id).update({"pin": pin});
+      _userController.currentUser.pin = pin;
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();

@@ -11,7 +11,7 @@ import '../../extensions/num_extension.dart';
 import '../../handlers/auth_view_handler.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/user_details_provider.dart';
-import '../../screens/navigation_screen.dart';
+import '../../screens/create_pin_screen.dart';
 import '../../services/api_service.dart';
 import '../../services/bottom_sheet_service.dart';
 import '../elements/button_with_loading_indicator.dart';
@@ -61,7 +61,7 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
       await UserDetailsProvider.createUser(ref);
       await _retrieveBanks();
       if (mounted) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const CreatePinScreen()));
       }
     } catch (e) {
       if (AuthProvider.completedAction) AuthProvider.deleteUser();

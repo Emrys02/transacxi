@@ -42,4 +42,10 @@ class InputValidators {
     if (value.length < 8) return "too short";
     return null;
   }
+
+  static String? pin(String? value) {
+    if (value == null || value.isEmpty) return "required";
+    if (value.length < 4) return "too short";
+    return null;
+  }
 }
