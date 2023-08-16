@@ -98,21 +98,32 @@ class _HomeTabState extends State<HomeTab> {
           child: StreamBuilder(
             stream: TransactionProvider.transactions,
             builder: (context, snapshot) {
-              // if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
-              //   return ListView.builder(
-              //     itemCount: 3,
-              //     itemBuilder: (context, index) => Shimmer.fromColors(
-              //       baseColor: Theme.of(context).colorScheme.primary,
-              //       highlightColor: Theme.of(context).colorScheme.onPrimary,
-              //       child: const TransactionListTile(),
-              //     ),
-              //   );
-              // }
-              if (!snapshot.hasData) {
+              if (snapshot.hasData) {
+                for (var element in snapshot.data!.docs) {
+                  if (_userController.currentUser.transactions.containsKey(element.id)) {
+                    _userController.currentUser.transactions.update(element.id, (value) {
+                      final temp = value;
+                      for (var data in element.data().entries) {
+                        temp.add(Transaction.fromJson({data.key: data.value}));
+                      }
+                      return temp;
+                    });
+                  } else {
+                    _userController.currentUser.transactions.putIfAbsent(element.id, () {
+                      final temp = <Transaction>[];
+                      for (var data in element.data().entries) {
+                        temp.add(Transaction.fromJson({data.key: data.value}));
+                      }
+                      return temp;
+                    });
+                  }
+                }
+              }
+              if (_userController.currentUser.transactions.isEmpty) {
                 return const Center(child: Text(StringManager.recentTransactionHere));
               }
               return ListView.builder(
-                itemCount: min(3, snapshot.data?.size ?? 0),
+                itemCount: min(3, _userController.currentUser.transactions.length),
                 itemBuilder: (context, index) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -120,15 +131,13 @@ class _HomeTabState extends State<HomeTab> {
                       margin: EdgeInsets.only(left: 10.width()),
                       padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 15.width()),
                       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFb9b6b6), width: 0))),
-                      child: Text("${snapshot.data?.docs[index].id}"),
+                      child: Text(_userController.currentUser.transactions.keys.elementAt(index)),
                     ),
                     SizedBox(height: 10.height()),
                     ...List.generate(
-                      snapshot.data?.docs[index].data().length ?? 0,
+                      _userController.currentUser.transactions[_userController.currentUser.transactions.keys.elementAt(index)]?.length ?? 0,
                       (index2) => TransactionListTile(
-                          transaction: Transaction.fromJson({
-                        snapshot.data?.docs[index].data().entries.elementAt(index2).key ?? "": snapshot.data?.docs[index].data().entries.elementAt(index2).value
-                      })),
+                          transaction: _userController.currentUser.transactions[_userController.currentUser.transactions.keys.elementAt(index)]![index2]),
                     )
                   ],
                 ),

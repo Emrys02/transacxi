@@ -11,7 +11,7 @@ class User {
   double balance;
   double flutterwaveBalance;
   double paystackBalance;
-  List<Transaction> transactions;
+  Map<String, List<Transaction>> transactions;
   User({
     required this.id,
     required this.email,
@@ -22,7 +22,7 @@ class User {
     required this.balance,
     required this.flutterwaveBalance,
     required this.paystackBalance,
-    this.transactions = const [],
+    required this.transactions,
     this.profileImage = "",
   });
 
@@ -37,6 +37,7 @@ class User {
         balance: json["balance"],
         flutterwaveBalance: json["flutterwaveBalance"] ?? 0,
         paystackBalance: json["paystackBalance"] ?? 0,
+        transactions: {},
         profileImage: json["profileImage"] ?? "");
   }
 }

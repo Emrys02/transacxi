@@ -8,4 +8,8 @@ class NavigationViewStateHandler extends ValueNotifier<int> {
   void changeCurrentView(int newValue) {
     value = newValue;
   }
+
+  void reset() {
+    value = 0;
+  }
 }

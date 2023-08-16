@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:transacxi/services/api_service.dart';
 
 import '../../constants/managers/asset_manager.dart';
 import '../../constants/managers/string_manager.dart';
@@ -18,12 +21,39 @@ class TransferDetails extends StatefulWidget {
 
 class _TransferDetailsState extends State<TransferDetails> {
   final _transactionController = TransactionController();
+  bool _isLoading = false;
+  String? _accountName;
 
   void _updateDestination(Bank? value) {
     if (value == null) return;
     _transactionController.updateDestinaiton = value.name;
     _transactionController.updatePaystackCode = value.paystackCode;
     _transactionController.updateFlutterwaveCode = value.flutterwaveCode;
+    if (_transactionController.accountNumber.length == 10 && _transactionController.destination.isNotEmpty) _verifyIdentity();
+  }
+
+  void _updateAccountNumber(String? value) {
+    if (value == null) return;
+    _transactionController.updateAccountNumber = value;
+    if (_transactionController.accountNumber.length == 10 && _transactionController.destination.isNotEmpty) _verifyIdentity();
+  }
+
+  void _verifyIdentity() async {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+    try {
+      if (_transactionController.flutterwaveCode.isNotEmpty) {
+        _accountName = await ApiService.flutterwaveVerifyAccount();
+      } else {
+        _accountName = await ApiService.paystackVerifyAccount();
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+    setState(() {
+      _isLoading = !_isLoading;
+    });
   }
 
   @override
@@ -31,6 +61,7 @@ class _TransferDetailsState extends State<TransferDetails> {
     _transactionController.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +96,13 @@ class _TransferDetailsState extends State<TransferDetails> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
+                  enabled: !_isLoading,
                   decoration: const InputDecoration(hintText: StringManager.accountNumber, fillColor: Color(0xFF6A6969)),
                   textAlign: TextAlign.center,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                  onChanged: _updateAccountNumber,
                 ),
+                if (_accountName != null) Text(_accountName!, style: const TextStyle(color: Colors.green)),
                 SizedBox(height: 13.height()),
               ],
             ),
@@ -79,7 +113,8 @@ class _TransferDetailsState extends State<TransferDetails> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  decoration: const InputDecoration(fillColor: Color(0xFF6A6969)),
+                  enabled: !_isLoading,
+                  decoration: const InputDecoration(fillColor: Color(0xFF6A6969),),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 13.height()),

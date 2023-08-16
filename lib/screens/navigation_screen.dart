@@ -53,7 +53,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   void dispose() {
-    _viewHanlder.dispose();
+    _viewHanlder.reset();
     super.dispose();
   }
 

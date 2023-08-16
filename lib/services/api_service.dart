@@ -119,17 +119,15 @@ class ApiService {
     _transactionController.updateAccessCode = ref.data["data"]["access_code"];
   }
 
-  // static Future<void> paystackVerifyAccount() async {
-  //   // final ref = await _paystackInit().get("/banks/NG");
-  //   for (var bank in ref.data["data"]) {
-  //     banks.add(bank["name"]);
-  //   }
-  // }
+  static Future<String> paystackVerifyAccount() async {
+    final ref = await _paystackInit()
+        .get("/bank/resolve", data: {"account_number": _transactionController.accountNumber, "bank_code": _transactionController.paystackCode});
+    return ref.data["data"]["account_name"];
+  }
 
-  // static Future<void> flutterwaveVerifyAccount() async {
-  //   final ref = await _flutterwaveInit().get("/banks/NG");
-  //   for (var bank in ref.data["data"]) {
-  //     banks.add(bank["name"]);
-  //   }
-  // }
+  static Future<String> flutterwaveVerifyAccount() async {
+    final ref = await _flutterwaveInit()
+        .get("/accounts/resolve", data: {"account_number": _transactionController.accountNumber, "account_code": _transactionController.flutterwaveCode});
+    return ref.data["data"]["account_name"];
+  }
 }

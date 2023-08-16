@@ -12,6 +12,7 @@ class TransactionController {
   Provider? _provider;
   TransactionType? _transactionType;
   String? _destination;
+  String? _accountNumber;
   String? _flutterwaveCode;
   String? _paystackCode;
   double _flutterwaveAmount = 0;
@@ -35,6 +36,10 @@ class TransactionController {
 
   String get destination {
     return _destination ?? "";
+  }
+
+  String get accountNumber {
+    return _accountNumber ?? "";
   }
 
   String get flutterwaveCode {
@@ -81,6 +86,10 @@ class TransactionController {
     _destination = value;
   }
 
+  set updateAccountNumber(String value) {
+    _accountNumber = value;
+  }
+
   set updateFlutterwaveCode(String? value) {
     _flutterwaveCode = value;
   }
@@ -113,5 +122,6 @@ class TransactionController {
     _paystackAmount = 0;
     _flutterwaveCode = null;
     _paystackCode = null;
+    _accountNumber = null;
   }
 }
