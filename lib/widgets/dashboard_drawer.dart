@@ -22,7 +22,7 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
   bool _uploadingImage = false;
   Widget get _image {
     if (_userController.currentUser.profileImage.isNotEmpty) return Image.network(_userController.currentUser.profileImage, fit: BoxFit.cover);
-    return const Icon(Icons.camera_alt);
+    return Container(width: double.infinity, height: double.infinity, color: Colors.black);
   }
 
   void _updateProfileImage() async {
@@ -56,13 +56,19 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
         children: [
           GestureDetector(
             onTap: _updateProfileImage,
-            child: SizedBox.square(
-              dimension: 80.width(),
-              child: ClipRRect(borderRadius: BorderRadius.circular(80.width()), child: _image),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox.square(
+                  dimension: 80.width(),
+                  child: ClipRRect(borderRadius: BorderRadius.circular(80.width()), child: _image),
+                ),
+                const Icon(Icons.camera_alt)
+              ],
             ),
           ),
           SizedBox(height: 50.height()),
-          Text(_userController.currentUser.fullname),
+          Text("${_userController.currentUser.fullname} (${_userController.currentUser.username})"),
           SizedBox(height: 23.height()),
           Text(_userController.currentUser.email),
           SizedBox(height: 23.height()),

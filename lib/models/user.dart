@@ -6,7 +6,7 @@ class User {
   String lastname;
   String fullname;
   String email;
-  String accountNumber;
+  String username;
   String profileImage;
   double balance;
   double flutterwaveBalance;
@@ -18,7 +18,7 @@ class User {
     required this.firstname,
     required this.lastname,
     required this.fullname,
-    required this.accountNumber,
+    required this.username,
     required this.balance,
     required this.flutterwaveBalance,
     required this.paystackBalance,
@@ -33,7 +33,7 @@ class User {
         firstname: json["firstname"],
         lastname: json["lastname"],
         fullname: json["fullname"],
-        accountNumber: json["accountNumber"],
+        username: json["username"],
         balance: json["balance"],
         flutterwaveBalance: json["flutterwaveBalance"] ?? 0,
         paystackBalance: json["paystackBalance"] ?? 0,

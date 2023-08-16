@@ -1,5 +1,3 @@
-import 'dart:math';
-
 class NewUserController {
   NewUserController._internal();
   static final _instance = NewUserController._internal();
@@ -7,6 +5,7 @@ class NewUserController {
 
   String? _password;
   String? _email;
+  String? _username;
   String? _fullname;
 
   String get password {
@@ -17,12 +16,20 @@ class NewUserController {
     return _email ??= "";
   }
 
+  String get username {
+    return _username ??= "";
+  }
+
   String get fullname {
     return _fullname ??= "";
   }
 
   set updateEmail(String value) {
     _email = value;
+  }
+
+  set updateUsername(String value) {
+    _username = value;
   }
 
   set updatePassword(String value) {
@@ -39,7 +46,7 @@ class NewUserController {
       "lastname": _fullname!.split(" ").last,
       "fullname": _fullname,
       "email": _email,
-      "accountNumber": List.generate(10, (index) => Random().nextInt(9)).toString().replaceAll(",", "").replaceAll("[", "").replaceAll("]", ""),
+      "username": _username,
       "balance": 0.0001,
     };
   }

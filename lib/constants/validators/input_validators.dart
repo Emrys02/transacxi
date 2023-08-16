@@ -36,4 +36,10 @@ class InputValidators {
     if (value != _newUserController.password) return "Passwords do not match";
     return null;
   }
+
+  static String? username(String? value) {
+    if (value == null || value.isEmpty) return "required";
+    if (value.length < 8) return "too short";
+    return null;
+  }
 }

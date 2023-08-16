@@ -59,10 +59,9 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
     try {
       final ref = await AuthProvider.createUser();
       await UserDetailsProvider.createUser(ref);
+      await _retrieveBanks();
       if (mounted) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const NavigationScreen(),
-        ));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationScreen()));
       }
     } catch (e) {
       if (AuthProvider.completedAction) AuthProvider.deleteUser();
@@ -80,6 +79,10 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
 
   void _updateEmail(String value) {
     _newUserController.updateEmail = value;
+  }
+
+  void _updateUsername(String value) {
+    _newUserController.updateUsername = value;
   }
 
   void _updatePassword(String value) {
@@ -136,6 +139,13 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
                     ),
                     SizedBox(height: 10.height()),
                     CustomTextField(
+                      hintText: StringManager.username,
+                      validator: InputValidators.username,
+                      keyboardType: TextInputType.name,
+                      onChanged: _updateUsername,
+                    ),
+                    SizedBox(height: 10.height()),
+                    CustomTextField(
                       hintText: StringManager.password,
                       validator: InputValidators.createPassword,
                       keyboardType: TextInputType.visiblePassword,
@@ -150,12 +160,7 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
                       isPassword: true,
                     ),
                     SizedBox(height: 20.height()),
-                    LoadingButton(
-                        label: StringManager.signUp,
-                        onPressed: () async {
-                          _retrieveBanks();
-                          await _submit();
-                        }),
+                    LoadingButton(label: StringManager.signUp, onPressed: _submit),
                     SizedBox(height: 30.height()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

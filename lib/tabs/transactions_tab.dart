@@ -20,7 +20,7 @@ class _TransactionsTabState extends State<TransactionsTab> {
 
   Widget get _image {
     if (_userController.currentUser.profileImage.isNotEmpty) return Image.network(_userController.currentUser.profileImage, fit: BoxFit.cover);
-    return const SizedBox.shrink();
+    return const Icon(Icons.person);
   }
 
   @override

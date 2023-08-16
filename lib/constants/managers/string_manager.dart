@@ -25,4 +25,5 @@ class StringManager {
   static const transacxi = "Transacxi";
   static const transfer = "Transfer";
   static const transactionHistory = "Transaction History";
+  static const username = "Username to be used for transactions";
 }

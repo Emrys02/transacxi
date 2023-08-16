@@ -22,7 +22,8 @@ class UserDetailsProvider {
 
   static Future<void> createUser(String id) async {
     try {
-      await _firebaseDatabase.ref(id).set(_newUserController.toMap());
+      await _firebaseDatabase.ref("users").child(id).set(_newUserController.toMap());
+      await _firebaseDatabase.ref("accounts").child(_newUserController.username).set(id);
       _userController.initialize(User.fromMap(id, _newUserController.toMap()));
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
@@ -38,7 +39,7 @@ class UserDetailsProvider {
 
   static Future<void> retrieveUserDetails(String id) async {
     try {
-      final ref = await _firebaseDatabase.ref(id).get();
+      final ref = await _firebaseDatabase.ref("user").child(id).get();
       _userController.initialize(User.fromMap(ref.key!, (ref.value! as Map)));
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
