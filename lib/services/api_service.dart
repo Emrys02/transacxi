@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:transacxi/models/bank.dart';
 
 import '../constants/constants.dart';
 import '../controllers/transaction_controller.dart';
@@ -83,32 +84,34 @@ class ApiService {
 
   static Future<void> retrieveFlutterwaveBanksList() async {
     final ref = await _flutterwaveInit().get("/banks/NG");
-    log(ref.data.toString());
     for (var bank in ref.data["data"]) {
       if (banks.any((element) => element.name == bank["name"])) {
         final index = banks.indexWhere((element) => element.name == bank["name"]);
         final data = banks[index];
         banks.removeAt(index);
-        data.flutterwaveCode = bank["code"];
+        data.flutterwaveCode = bank["code"].toString();
         banks.insert(index, data);
+      } else {
+        banks.add(Bank(name: bank["name"], flutterwaveCode: bank["code"].toString()));
       }
     }
-    banks.sort((a, b) => a.name.length.compareTo(b.name.length));
+    banks.sort((a, b) => a.name.compareTo(b.name));
   }
 
   static Future<void> retrievePaystackBanksList() async {
     final ref = await _paystackInit().get("/bank", data: {"country": "nigeria", "perPage": 100, "currency": "NGN"});
-    log(ref.data.toString());
     for (var bank in ref.data["data"]) {
       if (banks.any((element) => element.name == bank["name"])) {
         final index = banks.indexWhere((element) => element.name == bank["name"]);
         final data = banks[index];
         banks.removeAt(index);
-        data.paystackCode = bank["code"];
+        data.paystackCode = bank["code"].toString();
         banks.insert(index, data);
+      } else {
+        banks.add(Bank(name: bank["name"], paystackCode: bank["code"].toString()));
       }
     }
-    banks.sort((a, b) => a.name.length.compareTo(b.name.length));
+    banks.sort((a, b) => a.name.compareTo(b.name));
   }
 
   static Future<void> initializePaystack({required String email, required int amount}) async {
@@ -120,14 +123,14 @@ class ApiService {
   }
 
   static Future<String> paystackVerifyAccount() async {
-    final ref = await _paystackInit()
-        .get("/bank/resolve", data: {"account_number": _transactionController.accountNumber, "bank_code": _transactionController.paystackCode});
+    final ref = await _paystackInit().get("/bank/resolve",
+        data: {"account_number": int.parse(_transactionController.accountNumber), "bank_code": int.parse(_transactionController.paystackCode)});
     return ref.data["data"]["account_name"];
   }
 
   static Future<String> flutterwaveVerifyAccount() async {
-    final ref = await _flutterwaveInit()
-        .get("/accounts/resolve", data: {"account_number": _transactionController.accountNumber, "account_code": _transactionController.flutterwaveCode});
+    final ref = await _flutterwaveInit().get("/accounts/resolve",
+        data: {"account_number": int.parse(_transactionController.accountNumber), "account_code": int.parse(_transactionController.flutterwaveCode)});
     return ref.data["data"]["account_name"];
   }
 }

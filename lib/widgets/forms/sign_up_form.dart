@@ -139,7 +139,7 @@ class _SignUpFormState extends State<SignUpForm> with WidgetsBindingObserver {
                     ),
                     SizedBox(height: 10.height()),
                     CustomTextField(
-                      hintText: StringManager.username,
+                      hintText: StringManager.username1,
                       validator: InputValidators.username,
                       keyboardType: TextInputType.name,
                       onChanged: _updateUsername,

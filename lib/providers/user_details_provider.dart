@@ -39,7 +39,7 @@ class UserDetailsProvider {
 
   static Future<void> retrieveUserDetails(String id) async {
     try {
-      final ref = await _firebaseDatabase.ref("user").child(id).get();
+      final ref = await _firebaseDatabase.ref("users").child(id).get();
       _userController.initialize(User.fromMap(ref.key!, (ref.value! as Map)));
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());

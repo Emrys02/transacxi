@@ -5,9 +5,10 @@ class TransactionController {
   static final _initialize = TransactionController._internal();
   factory TransactionController() => _initialize;
 
-  int? _amount = 0;
-  String? _txRef = "";
-  String? _accessCode = "";
+  int? _amount;
+  String? _txRef;
+  String? _accessCode;
+  String? _receiverUsername;
   final String _currency = "NGN";
   Provider? _provider;
   TransactionType? _transactionType;
@@ -28,6 +29,10 @@ class TransactionController {
 
   String get accessCode {
     return _accessCode ?? "";
+  }
+
+  String get receiverUsername {
+    return _receiverUsername ?? "";
   }
 
   String get currency {
@@ -72,6 +77,10 @@ class TransactionController {
 
   set updateAccessCode(String value) {
     _accessCode = value;
+  }
+
+  set updateReceiverUsername(String value) {
+    _receiverUsername = value;
   }
 
   set updateProvider(Provider value) {
@@ -123,5 +132,6 @@ class TransactionController {
     _flutterwaveCode = null;
     _paystackCode = null;
     _accountNumber = null;
+    _receiverUsername = null;
   }
 }

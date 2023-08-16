@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../controllers/transaction_controller.dart';
 import '../controllers/user_controller.dart';
@@ -10,6 +11,7 @@ import '../extensions/date_extension.dart';
 class TransactionProvider {
   TransactionProvider._();
   static final _firestore = FirebaseFirestore.instance;
+  static final _database = FirebaseDatabase.instance;
   static final _userController = UserController();
   static final _transactionController = TransactionController();
 
@@ -58,6 +60,24 @@ class TransactionProvider {
     } on TimeoutException catch (e) {
       log(e.toString(), error: TimeoutException, time: DateTime.now(), name: e.runtimeType.toString());
       await saveTransactions();
+    } on Error catch (e) {
+      log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
+      throw "An error occured";
+    }
+  }
+
+  static Future<String> verifyIdentity() async {
+    try {
+      final data = await _database.ref("accounts").child(_transactionController.receiverUsername).get();
+      if (data.value == null) throw "Not found";
+      final name = await _database.ref("users").child(data.value.toString()).child("fullname").get();
+      return name.value.toString();
+    } on FirebaseException catch (e) {
+      log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
+      throw e.message.toString();
+    } on TimeoutException catch (e) {
+      log(e.toString(), error: TimeoutException, time: DateTime.now(), name: e.runtimeType.toString());
+      throw e.message.toString();
     } on Error catch (e) {
       log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
       throw "An error occured";

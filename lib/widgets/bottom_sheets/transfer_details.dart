@@ -10,6 +10,8 @@ import '../../controllers/transaction_controller.dart';
 import '../../extensions/num_extension.dart';
 import '../../helpers/global_variables.dart';
 import '../../models/bank.dart';
+import '../../providers/transactions_provider.dart';
+import '../elements/button_with_loading_indicator.dart';
 import '../elements/underlined_container.dart';
 
 class TransferDetails extends StatefulWidget {
@@ -23,32 +25,43 @@ class _TransferDetailsState extends State<TransferDetails> {
   final _transactionController = TransactionController();
   bool _isLoading = false;
   String? _accountName;
+  String? _error;
 
   void _updateDestination(Bank? value) {
     if (value == null) return;
     _transactionController.updateDestinaiton = value.name;
     _transactionController.updatePaystackCode = value.paystackCode;
     _transactionController.updateFlutterwaveCode = value.flutterwaveCode;
-    if (_transactionController.accountNumber.length == 10 && _transactionController.destination.isNotEmpty) _verifyIdentity();
+    _accountName = null;
+    _error = null;
+    setState(() {});
   }
 
   void _updateAccountNumber(String? value) {
     if (value == null) return;
     _transactionController.updateAccountNumber = value;
-    if (_transactionController.accountNumber.length == 10 && _transactionController.destination.isNotEmpty) _verifyIdentity();
   }
 
-  void _verifyIdentity() async {
+  void _updateReceiverUsername(String? value) {
+    if (value == null) return;
+    _transactionController.updateReceiverUsername = value;
+  }
+
+  Future<void> _verifyIdentity() async {
     setState(() {
       _isLoading = !_isLoading;
     });
     try {
-      if (_transactionController.flutterwaveCode.isNotEmpty) {
+      if (_transactionController.paystackCode.isNotEmpty) {
+        _accountName = await ApiService.paystackVerifyAccount();
+      } else if (_transactionController.flutterwaveCode.isNotEmpty) {
         _accountName = await ApiService.flutterwaveVerifyAccount();
       } else {
-        _accountName = await ApiService.paystackVerifyAccount();
+        _accountName = await TransactionProvider.verifyIdentity();
       }
+      _error = null;
     } catch (e) {
+      _error = "An error occured";
       log(e.toString());
     }
     setState(() {
@@ -61,7 +74,6 @@ class _TransferDetailsState extends State<TransferDetails> {
     _transactionController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +90,11 @@ class _TransferDetailsState extends State<TransferDetails> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField(
-                  items: [for (var bank in banks) DropdownMenuItem(value: bank, child: Text(bank.name))],
+                  items: _isLoading ? null : [for (var bank in banks) DropdownMenuItem(value: bank, child: Text(bank.name))],
                   onChanged: _updateDestination,
-                  dropdownColor: const Color(0xFF6A6969),
                   isExpanded: true,
+                  alignment: Alignment.center,
+                  dropdownColor: const Color(0xFF6A6969),
                   decoration: const InputDecoration(fillColor: Color(0xFF6A6969)),
                   style: Theme.of(context).inputDecorationTheme.hintStyle!.copyWith(color: Theme.of(context).colorScheme.onSurface),
                   hint: const Text(StringManager.destinationBank),
@@ -103,6 +116,7 @@ class _TransferDetailsState extends State<TransferDetails> {
                   onChanged: _updateAccountNumber,
                 ),
                 if (_accountName != null) Text(_accountName!, style: const TextStyle(color: Colors.green)),
+                if (_error != null) Text(_error!, style: const TextStyle(color: Colors.red)),
                 SizedBox(height: 13.height()),
               ],
             ),
@@ -114,9 +128,12 @@ class _TransferDetailsState extends State<TransferDetails> {
               children: [
                 TextFormField(
                   enabled: !_isLoading,
-                  decoration: const InputDecoration(fillColor: Color(0xFF6A6969),),
+                  decoration: const InputDecoration(hintText: StringManager.username2, fillColor: Color(0xFF6A6969)),
                   textAlign: TextAlign.center,
+                  onChanged: _updateReceiverUsername,
                 ),
+                if (_accountName != null) Text(_accountName!, style: const TextStyle(color: Colors.green)),
+                if (_error != null) Text(_error!, style: const TextStyle(color: Colors.red)),
                 SizedBox(height: 13.height()),
               ],
             ),
@@ -130,9 +147,22 @@ class _TransferDetailsState extends State<TransferDetails> {
             replacement: SizedBox(height: 18.height()),
             child: SizedBox(height: 48.height()),
           ),
-          SizedBox(height: 91.height()),
-          Image.asset(AssetManager.logoMini),
-          SizedBox(height: 76.height()),
+          Visibility(
+            visible: MediaQuery.viewInsetsOf(context).bottom < 1,
+            replacement: SizedBox(height: MediaQuery.viewInsetsOf(context).bottom),
+            child: Column(
+              children: [
+                Visibility(
+                  visible: _accountName == null,
+                  replacement: const LoadingButton(label: StringManager.proceed),
+                  child: LoadingButton(label: StringManager.verifyAccount, onPressed: _verifyIdentity),
+                ),
+                SizedBox(height: 91.height()),
+                Image.asset(AssetManager.logoMini),
+                SizedBox(height: 76.height())
+              ],
+            ),
+          ),
         ],
       ),
     );
