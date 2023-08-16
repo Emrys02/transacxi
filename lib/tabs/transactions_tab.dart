@@ -59,7 +59,7 @@ class _TransactionsTabState extends State<TransactionsTab> {
                     _userController.currentUser.transactions.update(element.id, (value) {
                       final temp = value;
                       for (var data in element.data().entries) {
-                        temp.add(Transaction.fromJson({data.key: data.value}));
+                        if (!temp.contains(Transaction.fromJson({data.key: data.value}))) temp.add(Transaction.fromJson({data.key: data.value}));
                       }
                       return temp;
                     });
@@ -67,7 +67,7 @@ class _TransactionsTabState extends State<TransactionsTab> {
                     _userController.currentUser.transactions.putIfAbsent(element.id, () {
                       final temp = <Transaction>[];
                       for (var data in element.data().entries) {
-                        temp.add(Transaction.fromJson({data.key: data.value}));
+                        if (!temp.contains(Transaction.fromJson({data.key: data.value}))) temp.add(Transaction.fromJson({data.key: data.value}));
                       }
                       return temp;
                     });

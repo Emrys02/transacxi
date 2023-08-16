@@ -82,8 +82,9 @@ class UserDetailsProvider {
         await _firebaseDatabase
             .ref(_userController.currentUser.id)
             .child("paystackBalance")
-            .set(_calculateNewbalance( _userController.currentUser.paystackBalance));
+            .set(_calculateNewbalance(_userController.currentUser.paystackBalance));
       }
+      _userController.currentUser.balance = _calculateNewbalance(_userController.currentUser.balance);
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();
