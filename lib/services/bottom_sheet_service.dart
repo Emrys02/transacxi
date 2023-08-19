@@ -13,10 +13,10 @@ import '../widgets/bottom_sheets/transfer_details.dart';
 class BottomSheetService {
   BottomSheetService._();
 
-  static Future<dynamic> _showRemovableSheet(Widget child, {bool hideSpace = false}) {
+  static Future<dynamic> _showRemovableSheet(Widget child, {bool hideSpace = false, bool isDismissible = true}) {
     return showModalBottomSheet(
       context: navigationKey.currentContext!,
-      isDismissible: true,
+      isDismissible: isDismissible,
       showDragHandle: true,
       isScrollControlled: true,
       backgroundColor: Theme.of(navigationKey.currentContext!).colorScheme.secondary,
@@ -32,7 +32,7 @@ class BottomSheetService {
   }
 
   static Future<void> showFundingSheet() {
-    return _showRemovableSheet(const FundWallet());
+    return _showRemovableSheet(const FundWallet(),isDismissible: false);
   }
 
   static Future<void> showTransferDestinationSheet() {
@@ -48,6 +48,6 @@ class BottomSheetService {
   }
 
   static Future<void> showProcessingSheet() {
-    return _showRemovableSheet(const ProcessingTransaction(), hideSpace: true);
+    return _showRemovableSheet(const ProcessingTransaction(), hideSpace: true, isDismissible: false);
   }
 }

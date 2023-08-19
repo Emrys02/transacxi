@@ -6,6 +6,7 @@ import 'package:transacxi/controllers/user_controller.dart';
 
 import '../controllers/new_user_controller.dart';
 import '../controllers/transaction_controller.dart';
+import '../handlers/balance_handler.dart';
 
 class AuthProvider {
   AuthProvider._();
@@ -64,5 +65,6 @@ class AuthProvider {
     UserController().dispose();
     TransactionController().dispose();
     AuthProvider.completedAction = false;
+    BalanceHandler().reset();
   }
 }

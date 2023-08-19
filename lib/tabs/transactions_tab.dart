@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../constants/managers/string_manager.dart';
 import '../controllers/user_controller.dart';
 import '../extensions/num_extension.dart';
+import '../handlers/balance_handler.dart';
 import '../models/transaction.dart';
 import '../providers/transactions_provider.dart';
 import '../widgets/elements/transaction_list_tile.dart';
@@ -54,6 +55,7 @@ class _TransactionsTabState extends State<TransactionsTab> {
             stream: TransactionProvider.transactions,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                BalanceHandler().updateBalance(_userController.currentUser.balance);
                 for (var element1 in snapshot.data!.docs) {
                   if (_userController.currentUser.transactions.containsKey(element1.id)) {
                     _userController.currentUser.transactions.update(element1.id, (value) {

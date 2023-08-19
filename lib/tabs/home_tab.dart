@@ -6,6 +6,7 @@ import '../constants/managers/asset_manager.dart';
 import '../constants/managers/string_manager.dart';
 import '../controllers/user_controller.dart';
 import '../extensions/num_extension.dart';
+import '../handlers/balance_handler.dart';
 import '../handlers/navigation_screen_handler.dart';
 import '../models/transaction.dart';
 import '../providers/transactions_provider.dart';
@@ -99,6 +100,7 @@ class _HomeTabState extends State<HomeTab> {
             stream: TransactionProvider.transactions,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                BalanceHandler().updateBalance(_userController.currentUser.balance);
                 for (var element1 in snapshot.data!.docs) {
                   if (_userController.currentUser.transactions.containsKey(element1.id)) {
                     _userController.currentUser.transactions.update(element1.id, (value) {

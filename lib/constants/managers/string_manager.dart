@@ -7,6 +7,7 @@ class StringManager {
   static const allTransactionHere = "Transactions wiil appear here";
   static const anotherBank = "To Another Bank";
   static const anotherWallet = "To Another TX Wallet";
+  static const cancel = "Cancel";
   static const confirmPassword = "Confirm Password";
   static const destinationBank = "Destination Bank";
   static const dontHaveAccount = "I don't have an account ";

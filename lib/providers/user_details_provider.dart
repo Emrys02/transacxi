@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../controllers/new_user_controller.dart';
 import '../controllers/transaction_controller.dart';
 import '../controllers/user_controller.dart';
+import '../handlers/balance_handler.dart';
 import '../models/transaction.dart';
 import '../models/user.dart';
 
@@ -30,6 +31,7 @@ class UserDetailsProvider {
       await _firebaseDatabase.ref("users").child(id).set(_newUserController.toMap());
       await _firebaseDatabase.ref("accounts").child(_newUserController.username).set(id);
       _userController.initialize(User.fromMap(id, _newUserController.toMap()));
+      BalanceHandler().updateBalance(_userController.currentUser.balance);
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();
@@ -47,6 +49,7 @@ class UserDetailsProvider {
       final ref = await _firebaseDatabase.ref("users").child(id).get();
       _userController.initialize(User.fromMap(ref.key!, (ref.value! as Map)));
       _userStream.onError((e) => log(e.toString()));
+      BalanceHandler().updateBalance(_userController.currentUser.balance);
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();
@@ -98,6 +101,7 @@ class UserDetailsProvider {
             .set(_calculateNewbalance(_userController.currentUser.paystackBalance));
       }
       _userController.currentUser.balance = _calculateNewbalance(_userController.currentUser.balance).toDouble();
+      BalanceHandler().updateBalance(_userController.currentUser.balance);
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();

@@ -31,6 +31,7 @@ class _FundWalletState extends State<FundWallet> {
   final paystackPlugin = PaystackPlugin();
   final _transactionController = TransactionController();
   final _userController = UserController();
+  bool _isDisabled = false;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _FundWalletState extends State<FundWallet> {
 
   Future<void> _makePayment() async {
     if (_transactionController.amount == 0) return;
+    setState(() => _isDisabled = true);
     _transactionController.updateTxRef = DateTime.now().microsecondsSinceEpoch.toString();
     _transactionController.transactionType = TransactionType.credit;
     if (_transactionController.provider == Provider.flutterwave) {
@@ -87,6 +89,7 @@ class _FundWalletState extends State<FundWallet> {
         await _updateBalance();
       }
     }
+    setState(() => _isDisabled = false);
   }
 
   Future<void> _saveTransaction() async {
@@ -109,64 +112,74 @@ class _FundWalletState extends State<FundWallet> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 37.height()),
-        const UnderlinedContainer(text: StringManager.fundWallet, color: Color(0xFF6A6969), textColor: Color(0xFF000000)),
-        SizedBox(height: 87.height()),
-        SizedBox(
-          width: 225.width(),
-          child: TextField(
-            decoration: const InputDecoration(
-              filled: false,
-              border: UnderlineInputBorder(),
-              enabledBorder: UnderlineInputBorder(),
-              focusedBorder: UnderlineInputBorder(),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Column(
+        children: [
+          SizedBox(height: 37.height()),
+          const UnderlinedContainer(text: StringManager.fundWallet, color: Color(0xFF6A6969), textColor: Color(0xFF000000)),
+          SizedBox(height: 87.height()),
+          SizedBox(
+            width: 225.width(),
+            child: TextField(
+              decoration: const InputDecoration(
+                filled: false,
+                border: UnderlineInputBorder(),
+                enabledBorder: UnderlineInputBorder(),
+                focusedBorder: UnderlineInputBorder(),
+              ),
+              textAlign: TextAlign.center,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChanged: _updateAmount,
+              keyboardType: TextInputType.number,
             ),
-            textAlign: TextAlign.center,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onChanged: _updateAmount,
-            keyboardType: TextInputType.number,
           ),
-        ),
-        SizedBox(height: 18.height()),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 30.width()),
-          height: 50.height(),
-          child: Row(
+          SizedBox(height: 18.height()),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 30.width()),
+            height: 50.height(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                PaymentProviderRadio(
+                  color: const Color(0xFF0BA4DB),
+                  logo: AssetManager.paystackIcon,
+                  provider: Provider.paystack,
+                  text: "Paystack",
+                  onTap: _changeProvider,
+                ),
+                PaymentProviderRadio(
+                  color: const Color(0xFFFB9129),
+                  logo: AssetManager.flutterwaveIcon,
+                  provider: Provider.flutterwave,
+                  text: "Flutterwave",
+                  onTap: _changeProvider,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 18.height()),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PaymentProviderRadio(
-                color: const Color(0xFF0BA4DB),
-                logo: AssetManager.paystackIcon,
-                provider: Provider.paystack,
-                text: "Paystack",
-                onTap: _changeProvider,
-              ),
-              PaymentProviderRadio(
-                color: const Color(0xFFFB9129),
-                logo: AssetManager.flutterwaveIcon,
-                provider: Provider.flutterwave,
-                text: "Flutterwave",
-                onTap: _changeProvider,
-              ),
+              Expanded(child: LoadingButton(label: StringManager.proceed, onPressed: _makePayment)),
+              SizedBox(width: 20.width()),
+              Expanded(child: OutlinedButton(onPressed: _isDisabled ? null : Navigator.of(context).pop, child: const Text(StringManager.cancel))),
             ],
           ),
-        ),
-        SizedBox(height: 18.height()),
-        LoadingButton(label: StringManager.proceed, onPressed: _makePayment),
-        Visibility(
-          visible: MediaQuery.viewInsetsOf(context).bottom < 1,
-          replacement: SizedBox(height: MediaQuery.viewInsetsOf(context).bottom + 10),
-          child: Column(
-            children: [
-              SizedBox(height: 91.height()),
-              Image.asset(AssetManager.logoMedium),
-              SizedBox(height: 85.height()),
-            ],
+          Visibility(
+            visible: MediaQuery.viewInsetsOf(context).bottom < 1,
+            replacement: SizedBox(height: MediaQuery.viewInsetsOf(context).bottom + 10),
+            child: Column(
+              children: [
+                SizedBox(height: 91.height()),
+                Image.asset(AssetManager.logoMedium),
+                SizedBox(height: 85.height()),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

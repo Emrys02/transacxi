@@ -7,6 +7,7 @@ import 'package:firebase_database/firebase_database.dart';
 import '../controllers/transaction_controller.dart';
 import '../controllers/user_controller.dart';
 import '../extensions/date_extension.dart';
+import '../handlers/balance_handler.dart';
 import '../models/transaction.dart';
 
 class TransactionProvider {
@@ -144,7 +145,6 @@ class TransactionProvider {
 
   static Future<void> saveTransactionForReceiver() async {
     try {
-      print((await _firestore.collection(_transactionController.receiverId).doc(DateTime.now().date()).get()).exists);
       if ((await _firestore.collection(_transactionController.receiverId).doc(DateTime.now().date()).get()).exists) {
         await _firestore.collection(_transactionController.receiverId).doc(DateTime.now().date()).update({
           _transactionController.txRef: {
@@ -208,6 +208,7 @@ class TransactionProvider {
           }
         });
       }
+      BalanceHandler().updateBalance(_userController.currentUser.balance);
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();

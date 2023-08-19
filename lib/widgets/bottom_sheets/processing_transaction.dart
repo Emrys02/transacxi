@@ -45,24 +45,28 @@ class _ProcessingTransactionState extends State<ProcessingTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _transferFunds(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return SizedBox(height: 300.height(), child: const Center(child: CircularProgressIndicator()));
-        }
-        if (snapshot.hasError) {
-          return Column(
-            children: [
-              Image.asset(AssetManager.error),
-              SizedBox(height: 20.height()),
-              Text(snapshot.error.toString()),
-              SizedBox(height: 20.height()),
-            ],
-          );
-        }
-        return Image.asset(AssetManager.success);
-      },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: FutureBuilder(
+        future: _transferFunds(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SizedBox(height: 300.height(), child: const Center(child: CircularProgressIndicator()));
+          }
+          if (snapshot.hasError) {
+            return Column(
+              children: [
+                Image.asset(AssetManager.error),
+                SizedBox(height: 20.height()),
+                Text(snapshot.error.toString()),
+                SizedBox(height: 20.height()),
+              ],
+            );
+          }
+          Future.delayed(const Duration(seconds: 3), () => Navigator.of(context).pop());
+          return Image.asset(AssetManager.success);
+        },
+      ),
     );
   }
 
