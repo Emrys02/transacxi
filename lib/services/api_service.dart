@@ -119,7 +119,7 @@ class ApiService {
     final ref = await _paystackInit().post("/transaction/initialize", data: jsonEncode(payload));
     log(ref.data.toString());
     _transactionController.updateTxRef = ref.data["data"]["reference"];
-    _transactionController.updateAccessCode = ref.data["data"]["access_code"];
+    _transactionController.accessCode = ref.data["data"]["access_code"];
   }
 
   static Future<String> paystackVerifyAccount() async {

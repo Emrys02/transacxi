@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterwave_standard/flutterwave.dart';
 
 import '../../constants/constants.dart';
@@ -46,7 +47,7 @@ class _FundWalletState extends State<FundWallet> {
   Future<void> _makePayment() async {
     if (_transactionController.amount == 0) return;
     _transactionController.updateTxRef = DateTime.now().microsecondsSinceEpoch.toString();
-    _transactionController.updateTransactionType = TransactionType.credit;
+    _transactionController.transactionType = TransactionType.credit;
     if (_transactionController.provider == Provider.flutterwave) {
       final ref = await Flutterwave(
         context: context,
@@ -70,13 +71,14 @@ class _FundWalletState extends State<FundWallet> {
       final ref = await paystackPlugin.checkout(
         context,
         fullscreen: true,
-        method: CheckoutMethod.bank,
+        method: CheckoutMethod.card,
         charge: Charge()
           ..amount = _transactionController.amount * 100
           ..currency = _transactionController.currency
           ..email = _userController.currentUser.email
           ..reference = _transactionController.txRef
-          ..accessCode = _transactionController.txRef,
+          ..accessCode = _transactionController.accessCode,
+        logo: SvgPicture.asset(AssetManager.logoMini),
       );
       log(ref.message.toString());
       log(ref.status.toString());
@@ -88,7 +90,7 @@ class _FundWalletState extends State<FundWallet> {
   }
 
   Future<void> _saveTransaction() async {
-    await TransactionProvider.saveTransactions();
+    await TransactionProvider.saveCreditTransactions();
   }
 
   Future<void> _updateBalance() async {
@@ -98,7 +100,11 @@ class _FundWalletState extends State<FundWallet> {
 
   void _changeProvider(Provider? provider) {
     if (provider == null) return;
-    setState(() => _transactionController.updateProvider = provider);
+    setState(() => _transactionController.provider = provider);
+  }
+
+  void _updateAmount(String? value) {
+    TransactionController().updateAmount = value;
   }
 
   @override
@@ -119,7 +125,7 @@ class _FundWalletState extends State<FundWallet> {
             ),
             textAlign: TextAlign.center,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onChanged: TransactionController().updateAmount,
+            onChanged: _updateAmount,
             keyboardType: TextInputType.number,
           ),
         ),
@@ -130,12 +136,12 @@ class _FundWalletState extends State<FundWallet> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const PaymentProviderRadio(
-                color: Color(0xFF0BA4DB),
+              PaymentProviderRadio(
+                color: const Color(0xFF0BA4DB),
                 logo: AssetManager.paystackIcon,
                 provider: Provider.paystack,
                 text: "Paystack",
-                // onTap: _changeProvider,
+                onTap: _changeProvider,
               ),
               PaymentProviderRadio(
                 color: const Color(0xFFFB9129),

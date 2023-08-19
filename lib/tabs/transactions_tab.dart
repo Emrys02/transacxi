@@ -54,20 +54,20 @@ class _TransactionsTabState extends State<TransactionsTab> {
             stream: TransactionProvider.transactions,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                for (var element in snapshot.data!.docs) {
-                  if (_userController.currentUser.transactions.containsKey(element.id)) {
-                    _userController.currentUser.transactions.update(element.id, (value) {
+                for (var element1 in snapshot.data!.docs) {
+                  if (_userController.currentUser.transactions.containsKey(element1.id)) {
+                    _userController.currentUser.transactions.update(element1.id, (value) {
                       final temp = value;
-                      for (var data in element.data().entries) {
-                        if (!temp.contains(Transaction.fromJson({data.key: data.value}))) temp.add(Transaction.fromJson({data.key: data.value}));
+                      for (var data in element1.data().entries) {
+                        if (!temp.any((element) => element.id == data.key)) temp.add(Transaction.fromJson({data.key: data.value}));
                       }
                       return temp;
                     });
                   } else {
-                    _userController.currentUser.transactions.putIfAbsent(element.id, () {
+                    _userController.currentUser.transactions.putIfAbsent(element1.id, () {
                       final temp = <Transaction>[];
-                      for (var data in element.data().entries) {
-                        if (!temp.contains(Transaction.fromJson({data.key: data.value}))) temp.add(Transaction.fromJson({data.key: data.value}));
+                      for (var data in element1.data().entries) {
+                        if (!temp.any((element) => element.id == data.key)) temp.add(Transaction.fromJson({data.key: data.value}));
                       }
                       return temp;
                     });

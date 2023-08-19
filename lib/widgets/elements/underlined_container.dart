@@ -16,7 +16,7 @@ class UnderlinedContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 10.height(), bottom: 10.height(), left: 10.width(), right: 20.width()),
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: _color ?? const Color(0xFFb9b6b6)))),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: _color ?? const Color(0xFFb9b6b6), width: 0.5))),
       child: Text(_text, style: TextStyle(color: _textColor)),
     );
   }

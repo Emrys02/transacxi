@@ -18,6 +18,7 @@ class StringManager {
   static const login = "Login";
   static const naira = "₦";
   static const password = "Password";
+  static const pin = "PIN";
   static const proceed = "Proceed";
   static const recent = "Recent";
   static const recentTransactionHere = "Recent transactions wiil appear here";

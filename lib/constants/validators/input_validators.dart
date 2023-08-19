@@ -1,8 +1,11 @@
 import '../../controllers/new_user_controller.dart';
+import '../../controllers/user_controller.dart';
+import '../../models/bank.dart';
 
 class InputValidators {
   InputValidators._();
   static final _newUserController = NewUserController();
+  static final _userController = UserController();
 
   static String? email(String? value) {
     if (value == null || value.isEmpty) return "required";
@@ -46,6 +49,26 @@ class InputValidators {
   static String? pin(String? value) {
     if (value == null || value.isEmpty) return "required";
     if (value.length < 4) return "too short";
+    return null;
+  }
+
+  static String? destination(Bank? value) {
+    if (value == null) return "required";
+    return null;
+  }
+
+  static String? accountNumber(String? value) {
+    if (value == null) return "required";
+    if (value.isEmpty) return "required";
+    if (value.length < 10) return "invalid";
+    return null;
+  }
+
+  static String? amount(String? value) {
+    if (value == null) return "required";
+    if (value.isEmpty) return "required";
+    if (int.parse(value) < 100) return "minimum amount is 100";
+    if (int.parse(value) > _userController.currentUser.balance) return "insufficient funds";
     return null;
   }
 }

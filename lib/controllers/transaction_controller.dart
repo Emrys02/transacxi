@@ -7,17 +7,18 @@ class TransactionController {
 
   int? _amount;
   String? _txRef;
-  String? _accessCode;
+  String? accessCode;
   String? _receiverUsername;
+  String? _receiverId;
   final String _currency = "NGN";
-  Provider? _provider;
-  TransactionType? _transactionType;
+  Provider? provider;
+  TransactionType? transactionType;
   String? _destination;
   String? _accountNumber;
   String? _flutterwaveCode;
   String? _paystackCode;
-  double _flutterwaveAmount = 0;
-  double _paystackAmount = 0;
+  int flutterwaveAmount = 0;
+  int paystackAmount = 0;
 
   int get amount {
     return _amount ?? 0;
@@ -27,12 +28,12 @@ class TransactionController {
     return _txRef ?? "";
   }
 
-  String get accessCode {
-    return _accessCode ?? "";
-  }
-
   String get receiverUsername {
     return _receiverUsername ?? "";
+  }
+
+  String get receiverId {
+    return _receiverId ?? "";
   }
 
   String get currency {
@@ -55,67 +56,35 @@ class TransactionController {
     return _paystackCode ?? "";
   }
 
-  double get flutterwaveAmount {
-    return _flutterwaveAmount;
-  }
-
-  double get paystackAmount {
-    return _paystackAmount;
-  }
-
-  Provider? get provider {
-    return _provider;
-  }
-
-  TransactionType? get transactionType {
-    return _transactionType;
-  }
-
   set updateTxRef(String value) {
     _txRef = value;
   }
 
-  set updateAccessCode(String value) {
-    _accessCode = value;
-  }
-
-  set updateReceiverUsername(String value) {
+  set receiverUsername(String value) {
     _receiverUsername = value;
   }
 
-  set updateProvider(Provider value) {
-    _provider = value;
+  set receiverId(String value) {
+    _receiverId = value;
   }
 
-  set updateTransactionType(TransactionType value) {
-    _transactionType = value;
-  }
-
-  set updateDestinaiton(String value) {
+  set destinaiton(String value) {
     _destination = value;
   }
 
-  set updateAccountNumber(String value) {
+  set accountNumber(String value) {
     _accountNumber = value;
   }
 
-  set updateFlutterwaveCode(String? value) {
+  set flutterwaveCode(String? value) {
     _flutterwaveCode = value;
   }
 
-  set updatePaystackCode(String? value) {
+  set paystackCode(String? value) {
     _paystackCode = value;
   }
 
-  set updatePaystackAmount(double value) {
-    _paystackAmount = value;
-  }
-
-  set updateFlutterwaveAmount(double value) {
-    _flutterwaveAmount = value;
-  }
-
-  void updateAmount(String? value) {
+  set updateAmount(String? value) {
     if (value == null) return;
     _amount = int.parse(value);
   }
@@ -123,15 +92,16 @@ class TransactionController {
   void dispose() {
     _amount = null;
     _txRef = null;
-    _transactionType = null;
-    _provider = null;
+    transactionType = null;
+    provider = null;
     _destination = null;
-    _accessCode = null;
-    _flutterwaveAmount = 0;
-    _paystackAmount = 0;
+    accessCode = null;
+    flutterwaveAmount = 0;
+    paystackAmount = 0;
     _flutterwaveCode = null;
     _paystackCode = null;
     _accountNumber = null;
     _receiverUsername = null;
+    _receiverId = null;
   }
 }

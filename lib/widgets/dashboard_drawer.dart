@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import '../controllers/user_controller.dart';
 import '../extensions/num_extension.dart';
 import '../providers/auth_provider.dart';
 import '../providers/user_details_provider.dart';
+import '../services/bottom_sheet_service.dart';
 import 'elements/button_with_loading_indicator.dart';
 
 class DashboardDrawer extends StatefulWidget {
@@ -34,7 +36,8 @@ class _DashboardDrawerState extends State<DashboardDrawer> {
     try {
       await UserDetailsProvider.uploadProfileImage(File(ref.path));
     } catch (e) {
-      print(e);
+      log(e.toString());
+      BottomSheetService.showErrorSheet(e.toString());
     }
     setState(() {
       _uploadingImage = !_uploadingImage;

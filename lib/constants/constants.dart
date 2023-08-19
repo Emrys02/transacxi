@@ -1,10 +1,10 @@
-import 'package:encrypt/encrypt.dart';
+// import 'package:encrypt/encrypt.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final _secretKey = Key.fromUtf8('19e012e7a1e7f123928a110e7b97ea6f');
-final _initializationValue = IV.fromUtf8('531ff2e01572cb2c');
+// final _secretKey = Key.fromUtf8('19e012e7a1e7f123928a110e7b97ea6f');
+// final _initializationValue = IV.fromUtf8('531ff2e01572cb2c');
 
-final _encrypter = Encrypter(AES(_secretKey));
+// final _encrypter = Encrypter(AES(_secretKey));
 
 String kFlutterwavePublicKey = dotenv.get("flutterWavePublicKey");
 String kFlutterwaveSecretKey = dotenv.get("flutterWaveSecretKey");

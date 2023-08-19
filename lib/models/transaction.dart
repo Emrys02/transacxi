@@ -1,6 +1,7 @@
 enum Provider {
   flutterwave,
-  paystack;
+  paystack,
+  wallet;
 
   factory Provider.fromString(String value) {
     return Provider.values.firstWhere((element) => element.name == value);
@@ -26,7 +27,6 @@ class Transaction {
   Transaction({required this.id, required this.type, required this.amount, required this.provider, this.receiver});
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
-    print(json);
     return Transaction(
       id: json.keys.first,
       type: TransactionType.fromString(json[json.keys.first]?["type"]),

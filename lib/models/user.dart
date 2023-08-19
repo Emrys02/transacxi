@@ -10,8 +10,8 @@ class User {
   String profileImage;
   String? pin;
   double balance;
-  double flutterwaveBalance;
-  double paystackBalance;
+  int flutterwaveBalance;
+  int paystackBalance;
   Map<String, List<Transaction>> transactions;
   User({
     required this.id,

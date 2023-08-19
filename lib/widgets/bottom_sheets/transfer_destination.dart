@@ -19,8 +19,8 @@ class _TransferDestinationState extends State<TransferDestination> {
   final _transactionController = TransactionController();
 
   void _selectDestination({String? destination}) async {
-    _transactionController.updateTransactionType = TransactionType.debit;
-    if (destination != null) _transactionController.updateDestinaiton = destination;
+    _transactionController.transactionType = TransactionType.debit;
+    if (destination != null) _transactionController.destinaiton = destination;
     Navigator.of(context).pop();
     BottomSheetService.showTransferDetailsSheet();
   }

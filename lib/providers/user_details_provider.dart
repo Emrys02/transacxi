@@ -19,6 +19,11 @@ class UserDetailsProvider {
   static final _transactionController = TransactionController();
   static final _firebaseDatabase = FirebaseDatabase.instance;
   static final _firebaseStorage = FirebaseStorage.instance;
+  static final _userStream = _firebaseDatabase.ref("users").child(_userController.currentUser.id).onChildChanged.listen((event) {
+    // _userController.initialize(User.fromMap(event.snapshot.key as String, event.snapshot.value as Map));
+    log(event.snapshot.key.toString());
+    log(event.snapshot.value.toString());
+  });
 
   static Future<void> createUser(String id) async {
     try {
@@ -41,6 +46,7 @@ class UserDetailsProvider {
     try {
       final ref = await _firebaseDatabase.ref("users").child(id).get();
       _userController.initialize(User.fromMap(ref.key!, (ref.value! as Map)));
+      _userStream.onError((e) => log(e.toString()));
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();
@@ -72,20 +78,26 @@ class UserDetailsProvider {
 
   static Future<void> updateBalance() async {
     try {
-      await _firebaseDatabase.ref(_userController.currentUser.id).child("balance").set(_calculateNewbalance(_userController.currentUser.balance));
+      await _firebaseDatabase
+          .ref("users")
+          .child(_userController.currentUser.id)
+          .child("balance")
+          .set(_calculateNewbalance(_userController.currentUser.balance));
       if (_transactionController.provider == Provider.flutterwave) {
         await _firebaseDatabase
-            .ref(_userController.currentUser.id)
+            .ref("users")
+            .child(_userController.currentUser.id)
             .child("flutterwaveBalance")
             .set(_calculateNewbalance(_userController.currentUser.flutterwaveBalance));
       }
       if (_transactionController.provider == Provider.paystack) {
         await _firebaseDatabase
-            .ref(_userController.currentUser.id)
+            .ref("users")
+            .child(_userController.currentUser.id)
             .child("paystackBalance")
             .set(_calculateNewbalance(_userController.currentUser.paystackBalance));
       }
-      _userController.currentUser.balance = _calculateNewbalance(_userController.currentUser.balance);
+      _userController.currentUser.balance = _calculateNewbalance(_userController.currentUser.balance).toDouble();
     } on FirebaseException catch (e) {
       log(e.toString(), error: FirebaseException, time: DateTime.now(), name: e.runtimeType.toString());
       throw e.message.toString();
@@ -107,14 +119,18 @@ class UserDetailsProvider {
       throw e.message.toString();
     } on TimeoutException catch (e) {
       log(e.toString(), error: TimeoutException, time: DateTime.now(), name: e.runtimeType.toString());
-      await updateBalance();
+      throw "Request Timeout";
     } on Error catch (e) {
       log(e.toString(), error: e.runtimeType, time: DateTime.now(), name: e.runtimeType.toString());
       throw "An error occured";
     }
   }
 
-  static double _calculateNewbalance(double balance) {
+  static num _calculateNewbalance(num balance) {
     return balance + _transactionController.amount;
+  }
+
+  static dispose() async {
+    await _userStream.cancel();
   }
 }
