@@ -68,7 +68,7 @@ class TransactionController {
     _receiverId = value;
   }
 
-  set destinaiton(String value) {
+  set destination(String value) {
     _destination = value;
   }
 

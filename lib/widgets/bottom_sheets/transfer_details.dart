@@ -33,7 +33,7 @@ class _TransferDetailsState extends State<TransferDetails> {
 
   void _updateDestination(Bank? value) {
     if (value == null) return;
-    _transactionController.destinaiton = value.name;
+    _transactionController.destination = value.name;
     _transactionController.paystackCode = value.paystackCode;
     _transactionController.flutterwaveCode = value.flutterwaveCode;
     _accountName = null;
